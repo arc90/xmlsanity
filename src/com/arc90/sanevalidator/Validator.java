@@ -3,6 +3,7 @@ package com.arc90.sanevalidator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.validation.Schema;
 
@@ -10,33 +11,42 @@ import org.jdom.Parent;
 
 public class Validator
 {
-	private Schema schema;
+	private final Schema schema;
 	
-	public Validator(File schemaFile)
+	public Validator(File schemaFile) throws IOException, FileNotFoundException
 	{
-		// TODO Auto-generated constructor stub
+		// TODO: stub
+		schema = null;
 	}
 
 	public ValidationResult validate(Parent content) throws ValidationException
 	{
-		return validate(new Source(content));
+		// TODO: stub
+		return null;
 	}
 	
-	public ValidationResult validate(javax.xml.transform.Source content) throws ValidationException
+	public ValidationResult validate(String content) throws ValidationException
 	{
-		if (content instanceof Source == false)
-		{
-			throw new ValidationException("This method accepts only instances of com.arc90.sanevalidateor.jdom.Source");
-		}
-	
 		// TODO: stub
 		return null;
 	}
 
-	public synchronized void setSchema(Schema schema) throws IOException, FileNotFoundException
+	public ValidationResult validate(byte[] content) throws ValidationException
 	{
-		// TODO Auto-generated method stub
-		
+		// TODO: stub
+		return null;
+	}
+
+	public ValidationResult validate(InputStream content) throws ValidationException
+	{
+		// TODO: stub
+		return null;
+	}
+
+	public ValidationResult validate(org.w3c.dom.Document content) throws ValidationException
+	{
+		// TODO: stub
+		return null;
 	}
 
 }
