@@ -15,7 +15,15 @@ public class ValidationError
 
 	public ValidationError(SAXParseException exception)
 	{
-		this.message = exception.getMessage().split(":", 2)[1].trim();
+		if (exception.getMessage().contains(":"))
+		{
+			this.message = exception.getMessage().split(":", 2)[1].trim();	
+		}
+		else
+		{
+			this.message = exception.getMessage();
+		}
+		
 		this.lineNumber = exception.getLineNumber();
 		this.columnNumber = exception.getColumnNumber();
 	}

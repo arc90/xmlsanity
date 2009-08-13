@@ -7,12 +7,12 @@
 	<ProducerCode>tim@arc90.com</ProducerCode>
 	<UserAgent>pxClient 3.5.0.9; WIN 10,0,22,87; ActiveX; Windows XP</UserAgent>
 	<BaseCriteria>
-		<BaseCriterion name="Carrier" value="Occidental Fire and Casualty Co of NC"/>
+		<BaseCriterion names="Carrier" value="Occidental Fire and Casualty Co of NC"/>
 		<BaseCriterion name="Product" value="HO3"/>
 		<BaseCriterion name="EffectiveDateRange" value="08/12/2009"/>
 	</BaseCriteria>
 	<Flags>
-		<Flags name="ReviewLock" value="true"/>
+		<Flag name="ReviewLock" value="true"/>
 	</Flags>
 	<DataItem name="ACVLossSettlementDwelling" value="10000" type="quote"/>
 	<DataItem name="ACVLossSettlementRoof" value="200" type="quote"/>
@@ -117,7 +117,7 @@
 	<DataItem name="LossAmount3" value="" type="quote"/>
 	<DataItem name="LossAmount4" value="" type="quote"/>
 	<DataItem name="LossAmount5" value="" type="quote"/>
-	<DataItem name="LossAmount6" type="quote"/>
+	<DataItem name="LossAmount6" value="" type="quote"/>
 	<DataItem name="LossAmount7" value="" type="quote"/>
 	<DataItem name="LossAmount8" value="" type="quote"/>
 	<DataItem name="LossAmount9" value="" type="quote"/>

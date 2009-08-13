@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.5.0 (MacOS X Default)"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JDOM"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jetty @ Restlet 1.1"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Restlet 1.1"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
