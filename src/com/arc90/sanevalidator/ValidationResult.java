@@ -51,6 +51,24 @@ public class ValidationResult implements ErrorHandler
 		return sb.toString();
 	}
 
+	public String getErrorsAsHtmlList()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("<ol>");
+		
+		for (ValidationError error : errors)
+		{
+			sb.append("\t<li>");
+			sb.append(error);
+			sb.append("</li>\n");
+		}
+		
+		sb.append("</ul>");
+		
+		return sb.toString();
+	}
+	
 	public void error(SAXParseException exception) throws SAXException
 	{
 		errors.add(new ValidationError(exception));
