@@ -33,11 +33,11 @@ public class HttpTest
 				try
 				{
 					ValidationResult validationResult = validator.validate(request.getEntity().getStream());
-					response.setEntity(validationResult.toString(), MediaType.TEXT_PLAIN);
 					
 					if (validationResult.isValid() == false)
 					{
 						response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
+						response.setEntity(validationResult.getErrorsAsHtmlList(), MediaType.TEXT_HTML);
 					}
 				}
 				catch (Exception e)

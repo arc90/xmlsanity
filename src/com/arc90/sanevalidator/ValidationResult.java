@@ -53,9 +53,25 @@ public class ValidationResult implements ErrorHandler
 
 	public String getErrorsAsHtmlList()
 	{
+		return getErrorsAsHtmlList(null);
+	}
+	
+	public String getErrorsAsHtmlList(String classValue)
+	{
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("<ol>");
+		if (classValue != null)
+		{
+			sb.append("<ol class=");
+			sb.append('"');
+			sb.append(classValue);
+			sb.append('"');
+			sb.append(">\n");
+		}
+		else
+		{
+			sb.append("<ol>\n");
+		}
 		
 		for (ValidationError error : errors)
 		{
@@ -64,7 +80,7 @@ public class ValidationResult implements ErrorHandler
 			sb.append("</li>\n");
 		}
 		
-		sb.append("</ul>");
+		sb.append("</ol>");
 		
 		return sb.toString();
 	}
