@@ -1,4 +1,4 @@
-package com.arc90.sanevalidator;
+package com.arc90.xml.validation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +36,7 @@ import org.xml.sax.SAXException;
 public class Validator
 {
 	protected final Schema schema;
+	protected final ValidatorPool validatorPool;
 
 	public Validator(File schemaFile) throws FileNotFoundException, SAXException
 	{
@@ -45,6 +46,8 @@ public class Validator
 		}
 		
 		schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
+		
+		validatorPool = new ValidatorPool(schema);
 	}
 
 	public ValidationResult validate(Parent content) throws ValidationException
@@ -97,7 +100,7 @@ public class Validator
 
 	protected ValidationResult validate(Source source) throws ValidationException
 	{
-		javax.xml.validation.Validator validator = schema.newValidator();
+		javax.xml.validation.Validator validator = getValidator();
 
 		ValidationResult result = new ValidationResult();
 
@@ -115,8 +118,22 @@ public class Validator
 		{
 			throw new ValidationException(e);
 		}
+		finally
+		{
+			returnValidator(validator);
+		}
 
 		return result;
+	}
+
+	protected javax.xml.validation.Validator getValidator()
+	{
+		return validatorPool.checkOut();
+	}
+	
+	protected void returnValidator(javax.xml.validation.Validator validator)
+	{
+		validatorPool.checkIn(validator);
 	}
 
 }

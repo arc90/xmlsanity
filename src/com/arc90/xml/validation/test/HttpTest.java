@@ -1,4 +1,4 @@
-package com.arc90.sanevalidator.test;
+package com.arc90.xml.validation.test;
 
 import java.io.File;
 
@@ -11,8 +11,8 @@ import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.data.Status;
 
-import com.arc90.sanevalidator.ValidationResult;
-import com.arc90.sanevalidator.Validator;
+import com.arc90.xml.validation.ValidationResult;
+import com.arc90.xml.validation.Validator;
 
 public class HttpTest
 {
