@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -43,7 +45,7 @@ public class Transformer
 
 	public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
 	{
-	    Transformer(xsltFile, null);
+	    this(xsltFile, null);
 	}
 
 	public Transformer(File xsltFile, Map<String,String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
@@ -59,7 +61,7 @@ public class Transformer
 		
 		if (defaultParams == null)
 		{
-		    defaultParams = new Map<String,String>();
+		    defaultParams = new HashMap<String,String>();
 		}
 		
 		this.defaultParams = defaultParams;
@@ -102,8 +104,13 @@ public class Transformer
 
 	public String transformToString(String original) throws TransformerException
 	{
+		return transformToString(original, null);
+	}
+	
+	public String transformToString(String original, Map<String,String> params) throws TransformerException
+	{
 		Source source = new SAXSource(new InputSource(new StringReader(original)));
-		return transformToString(source);
+		return transformToString(source, params);
 	}
 	
 	public void transformToStream(String original, OutputStream stream) throws TransformerException, IOException
