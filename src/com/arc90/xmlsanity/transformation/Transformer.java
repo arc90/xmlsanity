@@ -26,11 +26,27 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 
+/***
+ * Cacheable, fast, threadsafe, ultra-simple and ultra-usable XLST transformer.
+ * The idea is that you instantiate this class, and place the instance in an
+ * in-memory cache, such as OSCache, EHcache, or even just a Map. Once that's
+ * done, multiple threads can use the instance to transform XML documents or
+ * elements, without having to do any complicated setup.
+ * 
+ * @author Avi Flax <avif@arc90.com>
+ * 
+ */
 public class Transformer
 {
 	protected final TransformerPool transformerPool;
+	protected final Map<String,String> defaultParams;
 
 	public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+	{
+	    Transformer(xsltFile, null);
+	}
+
+	public Transformer(File xsltFile, Map<String,String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
 	{
 		if (xsltFile.exists() == false)
 		{
@@ -40,6 +56,13 @@ public class Transformer
 		Templates templates = TransformerFactory.newInstance().newTemplates(new StreamSource(xsltFile));
 		
 		transformerPool = new TransformerPool(templates);
+		
+		if (defaultParams == null)
+		{
+		    defaultParams = new Map<String,String>();
+		}
+		
+		this.defaultParams = defaultParams;
 	}	
 	
 	public Document transformToDoc(Document original) throws TransformerException, JDOMException, IOException
@@ -68,8 +91,13 @@ public class Transformer
 	
 	public String transformToString(File original) throws FileNotFoundException, TransformerException
 	{
+		return transformToString(original, null);
+	}
+
+	public String transformToString(File original, Map<String,String> params) throws FileNotFoundException, TransformerException
+	{
 		Source source = new SAXSource(new InputSource(new FileReader(original)));
-		return transformToString(source);
+		return transformToString(source, params);
 	}
 
 	public String transformToString(String original) throws TransformerException
@@ -97,6 +125,7 @@ public class Transformer
 	
 	protected void returnTransformer(javax.xml.transform.Transformer transformer)
 	{
+	    transformer.clearParameters();
 		transformerPool.checkIn(transformer);
 	}	
 	
@@ -118,9 +147,22 @@ public class Transformer
 		}
 	}
 	
-	protected String transformToString(Source source) throws TransformerException
+	protected String transformToString(Source source, Map<String,String> params) throws TransformerException
 	{
 		javax.xml.transform.Transformer transformer = getTransformer();
+
+	    for (String name : defaultParams.keySet())
+	    {
+	        transformer.setParameter(name, defaultParams.get(name));
+	    }
+		
+		if (params != null)
+		{
+		    for (String name : params.keySet())
+		    {
+		        transformer.setParameter(name, params.get(name));
+		    }
+		}
 		
 		try
 		{
