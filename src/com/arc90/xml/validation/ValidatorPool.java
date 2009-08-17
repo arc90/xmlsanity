@@ -5,7 +5,7 @@ import javax.xml.validation.Validator;
 
 import com.arc90.util.Pool;
 
-public class ValidatorPool extends Pool<javax.xml.validation.Validator>
+class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {
 	private final Schema schema;
 	

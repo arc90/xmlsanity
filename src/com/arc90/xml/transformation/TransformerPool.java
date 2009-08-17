@@ -5,7 +5,7 @@ import javax.xml.transform.TransformerConfigurationException;
 
 import com.arc90.util.Pool;
 
-public class TransformerPool extends Pool<javax.xml.transform.Transformer>
+class TransformerPool extends Pool<javax.xml.transform.Transformer>
 {
 	private final Templates templates;
 	
