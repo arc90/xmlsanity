@@ -41,6 +41,7 @@ public class Transformer
 {
 	protected final Map<String,String> defaultParams;
 	protected final TransformerPool transformerPool;
+	protected StreamResult result = null;
 
 	public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
 	{
@@ -99,6 +100,16 @@ public class Transformer
 		return new SAXBuilder().build(new StringReader(transformed));
 	}
 	
+	/**
+	 * Usually not needed, but sometimes transform() throws an exception *and* returns a result.
+	 * In that case, this method can be used to retrieve the result.
+	 * @return
+	 */
+	public String getResult()
+	{
+		return result.getWriter().toString();
+	}
+	
 	protected javax.xml.transform.Transformer getTransformer()
 	{
 		return transformerPool.checkOut();
@@ -106,6 +117,7 @@ public class Transformer
 	
 	protected void returnTransformer(javax.xml.transform.Transformer transformer)
 	{
+		result = null;
 	    transformer.clearParameters();
 		transformerPool.checkIn(transformer);
 	}	
@@ -116,7 +128,7 @@ public class Transformer
 		
 		try
 		{
-			StreamResult result = new StreamResult(new ByteArrayOutputStream());
+			result = new StreamResult(new ByteArrayOutputStream());
 		
 			transformer.transform(source, result);
 		
@@ -147,7 +159,7 @@ public class Transformer
 		
 		try
 		{
-			StreamResult result = new StreamResult(new StringWriter());
+			result = new StreamResult(new StringWriter());
 		
 			transformer.transform(source, result);
 		
