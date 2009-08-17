@@ -31,5 +31,4 @@ public class ValidatorPool extends Pool<javax.xml.validation.Validator>
 		return true;
 	}
 
-
 }

@@ -35,7 +35,6 @@ import org.xml.sax.SAXException;
  */
 public class Validator
 {
-	protected final Schema schema;
 	protected final ValidatorPool validatorPool;
 
 	public Validator(File schemaFile) throws FileNotFoundException, SAXException
@@ -45,7 +44,7 @@ public class Validator
 			throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
 		}
 		
-		schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
+		Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
 		
 		validatorPool = new ValidatorPool(schema);
 	}

@@ -3,6 +3,9 @@ package com.arc90.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/***
+* Based on http://sourcemaking.com/design_patterns/object_pool/java
+***/
 public abstract class Pool<T>
 {
 	private long expirationTime;
