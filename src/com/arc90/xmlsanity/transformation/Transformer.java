@@ -128,7 +128,7 @@ public class Transformer
 
         try
         {
-            transformer.transform(source, result);
+            transformer.transform(source, result.getStreamResult());
         }
         catch (TransformerException e)
         {
