@@ -103,7 +103,7 @@ public class Validator
 
 		ValidationResult result = new ValidationResult();
 
-		validator.setErrorHandler(result);
+		validator.setErrorHandler(new ErrorHandler(result));
 
 		try
 		{

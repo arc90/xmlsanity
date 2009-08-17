@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+<target name="javadoc">
+<javadoc access="public" author="true" classpath="/Users/avi/Dev/java/frameworks/restlet-1.1.5/lib/com.noelios.restlet.jar:/Users/avi/Dev/java/libraries/jdom-1.1/build/jdom.jar:/Users/avi/Dev/java/frameworks/restlet-1.1.5/lib/org.restlet.jar" destdir="/Users/avi/Dev/Eclipse%20Workspaces/Experiments/XmlSanity/doc" doctitle="XML Sanity" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.arc90.xmlsanity.transformation,com.arc90.xmlsanity.validation" source="1.5" sourcepath="src" splitindex="false" use="true" version="true">
+<link href="http://www.jdom.org/docs/apidocs/"/>
+<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+<link href="file:/Users/avi/Dev/Eclipse%2520Workspaces/Experiments/XmlSanity/doc/"/>
+</javadoc>
+</target>
+</project>

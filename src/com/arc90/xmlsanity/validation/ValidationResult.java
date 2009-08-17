@@ -1,102 +1,81 @@
 package com.arc90.xmlsanity.validation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-
-public class ValidationResult implements ErrorHandler
-{
+public class ValidationResult {
 	private final List<ValidationError> errors = new ArrayList<ValidationError>();
-		
-	public boolean isValid() {
-		return errors.size() == 0;
-	}
-	
-	public Collection<ValidationError> getErrors()
-	{
+
+	public List<ValidationError> getErrors() {
 		return errors;
 	}
-	
-	public void addError(String error)
-	{
-		errors.add(new ValidationError(error));
-	}
-	
-	@Override
-	public String toString()
-	{
-		if (isValid())
-		{
-			return "valid";
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("invalid, because:\n");
-		
-		for (int i=0; i < errors.size(); i++)
-		{
-			ValidationError error = errors.get(i);
-			
-			sb.append(i+1);
-			sb.append(". ");
-			sb.append(error);
-			sb.append("\n");
-		}
-		
-		return sb.toString();
-	}
 
-	public String getErrorsAsHtmlList()
-	{
+	public String getErrorsAsHtmlList() {
 		return getErrorsAsHtmlList(null);
 	}
-	
-	public String getErrorsAsHtmlList(String classValue)
-	{
+
+	/**
+	 * 
+	 * @param classValue The value of the class attribute of the ol tag.
+	 *     If null, the class attribute will not be specified.
+	 * @return String containing an HTML ordered list.
+	 */
+	public String getErrorsAsHtmlList(String classValue) {
 		StringBuilder sb = new StringBuilder();
-		
-		if (classValue != null)
-		{
+
+		if (classValue != null) {
 			sb.append("<ol class=");
 			sb.append('"');
 			sb.append(classValue);
 			sb.append('"');
 			sb.append(">\n");
-		}
-		else
-		{
+		} else {
 			sb.append("<ol>\n");
 		}
-		
-		for (ValidationError error : errors)
-		{
+
+		for (ValidationError error : errors) {
 			sb.append("\t<li>");
 			sb.append(error);
 			sb.append("</li>\n");
 		}
-		
+
 		sb.append("</ol>");
-		
+
 		return sb.toString();
 	}
-	
-	public void error(SAXParseException exception) throws SAXException
-	{
-		errors.add(new ValidationError(exception));
+
+	public boolean isValid() {
+		return errors.size() == 0;
 	}
 
-	public void fatalError(SAXParseException exception) throws SAXException
-	{
-		errors.add(new ValidationError(exception));
+	@Override
+	public String toString() {
+		if (isValid()) {
+			return "valid";
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("invalid, because:\n");
+
+		for (int i = 0; i < errors.size(); i++) {
+			ValidationError error = errors.get(i);
+
+			sb.append(i + 1);
+			sb.append(". ");
+			sb.append(error);
+			sb.append("\n");
+		}
+
+		return sb.toString();
 	}
-	
-	public void warning(SAXParseException exception) throws SAXException
-	{
+
+	protected void addError(String error) {
+		errors.add(new ValidationError(error));
+	}
+
+	protected void addError(ValidationError validationError) {
+		errors.add(validationError);
 	}
 
 }

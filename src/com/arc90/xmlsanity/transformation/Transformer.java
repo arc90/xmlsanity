@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -40,8 +39,8 @@ import org.xml.sax.InputSource;
  */
 public class Transformer
 {
-	protected final TransformerPool transformerPool;
 	protected final Map<String,String> defaultParams;
+	protected final TransformerPool transformerPool;
 
 	public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
 	{
@@ -67,62 +66,37 @@ public class Transformer
 		this.defaultParams = defaultParams;
 	}	
 	
-	public Document transformToDoc(Document original) throws TransformerException, JDOMException, IOException
+	public String transform(File original) throws FileNotFoundException, TransformerException
 	{
-		String transformed = transformToString(new XMLOutputter().outputString(original));
+		return transform(original, null);
+	}
+			
+	public String transform(File original, Map<String,String> params) throws FileNotFoundException, TransformerException
+	{
+		Source source = new SAXSource(new InputSource(new FileReader(original)));
+		return transformToString(source, params);
+	}
+
+	public String transform(String original) throws TransformerException
+	{
+		return transform(original, null);
+	}
+
+	public String transform(String original, Map<String,String> params) throws TransformerException
+	{
+		Source source = new SAXSource(new InputSource(new StringReader(original)));
+		return transformToString(source, params);
+	}
+
+	public Document transform(Document original) throws TransformerException, JDOMException, IOException
+	{
+		return transform(original, null);
+	}
+
+	public Document transform(Document original, Map<String,String> params) throws TransformerException, JDOMException, IOException
+	{
+		String transformed = transform(new XMLOutputter().outputString(original), params);
 		return new SAXBuilder().build(new StringReader(transformed));
-	}
-	
-	public OutputStream transformToStream(File original) throws FileNotFoundException, TransformerException
-	{
-		Source source = new SAXSource(new InputSource(new FileReader(original)));
-		return transformToStream(source);
-	}
-	
-	public OutputStream transformToStream(InputStream original) throws TransformerException
-	{
-		Source source = new SAXSource(new InputSource(original));
-		return transformToStream(source);
-	}
-	
-	public OutputStream transformToStream(String original) throws TransformerException
-	{
-		Source source = new SAXSource(new InputSource(new StringReader(original)));
-		return transformToStream(source);
-	}
-	
-	public String transformToString(File original) throws FileNotFoundException, TransformerException
-	{
-		return transformToString(original, null);
-	}
-
-	public String transformToString(File original, Map<String,String> params) throws FileNotFoundException, TransformerException
-	{
-		Source source = new SAXSource(new InputSource(new FileReader(original)));
-		return transformToString(source, params);
-	}
-
-	public String transformToString(String original) throws TransformerException
-	{
-		return transformToString(original, null);
-	}
-	
-	public String transformToString(String original, Map<String,String> params) throws TransformerException
-	{
-		Source source = new SAXSource(new InputSource(new StringReader(original)));
-		return transformToString(source, params);
-	}
-	
-	public void transformToStream(String original, OutputStream stream) throws TransformerException, IOException
-	{
-		String transformed = transformToString(original);
-		stream.write(transformed.getBytes());
-	}
-	
-	public void transformToStream(File original, OutputStream stream) throws TransformerException, IOException
-	{
-		String transformed = transformToString(original);
-		stream.write(transformed.getBytes());
 	}
 	
 	protected javax.xml.transform.Transformer getTransformer()
