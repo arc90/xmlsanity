@@ -1,4 +1,4 @@
-package com.arc90.xml.validation;
+package com.arc90.xmlsanity.validation;
 
 public class ValidationException extends Exception
 {

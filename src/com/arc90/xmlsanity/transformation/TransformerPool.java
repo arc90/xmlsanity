@@ -1,9 +1,9 @@
-package com.arc90.xml.transformation;
+package com.arc90.xmlsanity.transformation;
 
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 
-import com.arc90.util.Pool;
+import com.arc90.xmlsanity.util.Pool;
 
 class TransformerPool extends Pool<javax.xml.transform.Transformer>
 {

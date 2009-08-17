@@ -1,4 +1,4 @@
-package com.arc90.xml.validation;
+package com.arc90.xmlsanity.validation;
 
 import java.util.ArrayList;
 import java.util.Collection;

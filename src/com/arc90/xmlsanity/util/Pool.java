@@ -1,4 +1,4 @@
-package com.arc90.util;
+package com.arc90.xmlsanity.util;
 
 import java.util.HashMap;
 import java.util.Map;

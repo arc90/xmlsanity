@@ -1,9 +1,9 @@
-package com.arc90.xml.validation.test;
+package com.arc90.xmlsanity.validation.test;
 
 import java.io.File;
 
-import com.arc90.xml.validation.ValidationResult;
-import com.arc90.xml.validation.Validator;
+import com.arc90.xmlsanity.validation.ValidationResult;
+import com.arc90.xmlsanity.validation.Validator;
 
 public class Test
 {

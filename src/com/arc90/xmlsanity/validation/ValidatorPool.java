@@ -1,9 +1,9 @@
-package com.arc90.xml.validation;
+package com.arc90.xmlsanity.validation;
 
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 
-import com.arc90.util.Pool;
+import com.arc90.xmlsanity.util.Pool;
 
 class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {

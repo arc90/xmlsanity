@@ -1,4 +1,4 @@
-package com.arc90.xml.transformation;
+package com.arc90.xmlsanity.transformation;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
