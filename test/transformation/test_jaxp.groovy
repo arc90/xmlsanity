@@ -25,13 +25,6 @@ transformer.setParameter('DesiredVariant', 'singleterm')
 source = new SAXSource(new InputSource(new FileReader(contentFile)))
 result = new StreamResult(new StringWriter())
 
-try
-{
-    transformer.transform(source, result)
-}
-catch (Exception e)
-{
-    println e.message
-}
+transformer.transform(source, result)
 
 println result.writer

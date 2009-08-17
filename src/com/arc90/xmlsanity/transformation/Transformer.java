@@ -67,6 +67,8 @@ public class Transformer
 		this.defaultParams = defaultParams;
 	}	
 	
+	// TODO: I think this needs to return a TransformationResult, because sometimes an error can occur and you still want the result.
+	// The way this is currently set up, you get either the Exception OR a result.
 	public String transform(File original) throws FileNotFoundException, TransformerException
 	{
 		return transform(original, null);
@@ -99,17 +101,7 @@ public class Transformer
 		String transformed = transform(new XMLOutputter().outputString(original), params);
 		return new SAXBuilder().build(new StringReader(transformed));
 	}
-	
-	/**
-	 * Usually not needed, but sometimes transform() throws an exception *and* returns a result.
-	 * In that case, this method can be used to retrieve the result.
-	 * @return
-	 */
-	public String getResult()
-	{
-		return result.getWriter().toString();
-	}
-	
+		
 	protected javax.xml.transform.Transformer getTransformer()
 	{
 		return transformerPool.checkOut();
