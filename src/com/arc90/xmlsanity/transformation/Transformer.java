@@ -9,19 +9,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.transform.Source;
-import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
+
+import com.arc90.xmlsanity.util.PoolException;
 
 /***
  * Cacheable, fast, threadsafe, ultra-simple and ultra-usable XLST transformer.
@@ -46,14 +45,7 @@ public class Transformer
 
     public Transformer(File xsltFile, Map<String, String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
-        if (xsltFile.exists() == false)
-        {
-            throw new FileNotFoundException("The file " + xsltFile.getAbsolutePath() + " does not exist.");
-        }
-
-        Templates templates = TransformerFactory.newInstance().newTemplates(new StreamSource(xsltFile));
-
-        transformerPool = new TransformerPool(templates);
+        transformerPool = new TransformerPool(xsltFile);
 
         if (defaultParams == null)
         {
@@ -63,39 +55,39 @@ public class Transformer
         this.defaultParams = defaultParams;
     }
 
-    public TransformationResult transform(File original) throws FileNotFoundException
+    public TransformationResult transform(File original) throws FileNotFoundException, TransformerException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(File original, Map<String, String> params) throws FileNotFoundException
+    public TransformationResult transform(File original, Map<String, String> params) throws FileNotFoundException, TransformerException
     {
         Source source = new SAXSource(new InputSource(new FileReader(original)));
         return transform(source, params);
     }
 
-    public TransformationResult transform(String original)
+    public TransformationResult transform(String original) throws TransformerException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(String original, Map<String, String> params)
+    public TransformationResult transform(String original, Map<String, String> params) throws TransformerException
     {
         Source source = new SAXSource(new InputSource(new StringReader(original)));
         return transform(source, params);
     }
 
-    public TransformationResult transform(Document original) throws JDOMException, IOException
+    public TransformationResult transform(Document original) throws JDOMException, IOException, TransformerException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(Document original, Map<String, String> params) throws JDOMException, IOException
+    public TransformationResult transform(Document original, Map<String, String> params) throws JDOMException, IOException, TransformerException
     {
         return transform(new XMLOutputter().outputString(original), params);
     }
 
-    protected javax.xml.transform.Transformer getTransformer()
+    protected javax.xml.transform.Transformer getTransformer() throws PoolException
     {
         return transformerPool.checkOut();
     }
@@ -107,9 +99,18 @@ public class Transformer
         transformerPool.checkIn(transformer);
     }
 
-    protected TransformationResult transform(Source source, Map<String, String> params)
+    protected TransformationResult transform(Source source, Map<String, String> params) throws TransformerException
     {
-        javax.xml.transform.Transformer transformer = getTransformer();
+        javax.xml.transform.Transformer transformer;
+        
+        try
+        {
+            transformer = getTransformer();
+        }
+        catch (PoolException e)
+        {
+            throw new TransformerException(e);
+        }
 
         for (String name : defaultParams.keySet())
         {

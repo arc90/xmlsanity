@@ -7,12 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -20,6 +17,8 @@ import org.jdom.Parent;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import com.arc90.xmlsanity.util.PoolException;
 
 /***
  * Cacheable, fast, threadsafe, ultra-simple and ultra-usable XSD validator. The
@@ -39,14 +38,7 @@ public class Validator
 
 	public Validator(File schemaFile) throws FileNotFoundException, SAXException
 	{
-		if (schemaFile.exists() == false)
-		{
-			throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
-		}
-		
-		Schema schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
-		
-		validatorPool = new ValidatorPool(schema);
+		validatorPool = new ValidatorPool(schemaFile);
 	}
 
 	public ValidationResult validate(Parent content) throws ValidationException
@@ -99,7 +91,16 @@ public class Validator
 
 	protected ValidationResult validate(Source source) throws ValidationException
 	{
-		javax.xml.validation.Validator validator = getValidator();
+		javax.xml.validation.Validator validator;
+        
+		try
+        {
+            validator = getValidator();
+        }
+        catch (PoolException e)
+        {
+            throw new ValidationException(e);
+        }
 
 		ValidationResult result = new ValidationResult();
 
@@ -125,7 +126,7 @@ public class Validator
 		return result;
 	}
 
-	protected javax.xml.validation.Validator getValidator()
+	protected javax.xml.validation.Validator getValidator() throws PoolException
 	{
 		return validatorPool.checkOut();
 	}

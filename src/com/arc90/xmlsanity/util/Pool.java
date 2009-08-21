@@ -10,22 +10,29 @@ public abstract class Pool<T>
 {
 	private long expirationTime;
 
-	private Map<T, Long> locked, unlocked;
+	private final Map<T, Long> locked = new HashMap<T, Long>();
+	private final Map<T, Long> unlocked = new HashMap<T, Long>();
 
+	/**
+	 * Constructor which uses the default expiration time of 5 minutes.
+	 */
 	public Pool()
 	{
-		expirationTime = 30000; // 30 seconds
-		locked = new HashMap<T, Long>();
-		unlocked = new HashMap<T, Long>();
+	    this(300);
+	}
+	
+	public Pool(long expirationSeconds)
+	{
+		expirationTime = expirationSeconds * 1000;
 	}
 
-	protected abstract T create();
+	protected abstract T create() throws PoolException;
 
 	public abstract boolean validate(T o);
 
 	public abstract void expire(T o);
 
-	public synchronized T checkOut()
+	public synchronized T checkOut() throws PoolException
 	{
 		long now = System.currentTimeMillis();
 		

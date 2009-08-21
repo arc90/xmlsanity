@@ -5,15 +5,7 @@ import com.arc90.xmlsanity.transformation.Transformer
 contentFile = new File('1xPolicy.xml')
 xsltFile = new File('InsurancePolicy-1.x_to_InsurancePolicy-2.x.xslt')
 
-try {
-    transformer = new Transformer(xsltFile)
-}
-catch (Exception e) 
-{
-    println e.getMessage()
-    e.printStackTrace()
-    return
-}
+transformer = new Transformer(xsltFile)
 
 params = [:]
 params['OrganizationId'] = 'whatever'
@@ -23,3 +15,10 @@ params['DesiredVersion'] = '2.3'
 params['DesiredVariant'] = 'singleterm'
 
 println transformer.transform(contentFile, params)
+
+
+
+class FastTransformer extends Resource
+{
+    def void AcceptRepresentation()
+}
