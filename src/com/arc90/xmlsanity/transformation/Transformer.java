@@ -25,9 +25,9 @@ import com.arc90.xmlsanity.util.PoolException;
 /***
  * Cacheable, fast, threadsafe, ultra-simple and ultra-usable XLST transformer.
  * The idea is that you instantiate this class, and place the instance in an
- * in-memory cache, such as OSCache, EHcache, or even just a Map. Once that's
- * done, multiple threads can use the instance to transform XML documents or
- * elements, without having to do any complicated setup.
+ * in-memory cache, such as OSCache, EHcache, or even just a Map or a static
+ * field. Once that's done, multiple threads can use the instance to transform
+ * XML documents or elements, without having to do any complicated setup.
  * 
  * @author Avi Flax <avif@arc90.com>
  * 
@@ -102,7 +102,7 @@ public class Transformer
     protected TransformationResult transform(Source source, Map<String, String> params) throws TransformerException
     {
         javax.xml.transform.Transformer transformer;
-        
+
         try
         {
             transformer = getTransformer();
