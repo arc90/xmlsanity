@@ -1,3 +1,8 @@
-import com.arc90.xml.validation.Validator
+#!/usr/bin/env groovy -cp ../../lib/jdom.jar:../../bin
 
-println new Validator(new File(args[0])).validate(new File(args[1]))
+import com.arc90.xmlsanity.validation.Validator
+
+xmlFile = new File("PolicyRequest 2.1 with Credit Card Payment.xml")
+xsdFile = new File("insight_policyrequest_2.1.xsd")
+
+println new Validator(xsdFile).validate(xmlFile)

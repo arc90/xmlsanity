@@ -6,6 +6,11 @@ import java.util.List;
 public class ValidationResult {
 	private final List<ValidationError> errors = new ArrayList<ValidationError>();
 
+	protected ValidationResult()
+	{
+	    super();
+	}
+	
 	public List<ValidationError> getErrors() {
 		return errors;
 	}
@@ -44,10 +49,35 @@ public class ValidationResult {
 		return sb.toString();
 	}
 
+	public String getErrorsAsString()
+	{
+	    if (errors.size() == 0)
+	    {
+	        return "";
+	    }
+	    
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < errors.size(); i++) {
+            ValidationError error = errors.get(i);
+
+            sb.append(i + 1);
+            sb.append(". ");
+            sb.append(error);
+            sb.append("\n");
+        }
+
+        return sb.toString();	    
+	}
+	
 	public boolean isValid() {
 		return errors.size() == 0;
 	}
-
+    
+    public boolean isInvalid() {
+        return errors.size() > 0;
+    }
+	
 	@Override
 	public String toString() {
 		if (isValid()) {
@@ -57,15 +87,8 @@ public class ValidationResult {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("invalid, because:\n");
-
-		for (int i = 0; i < errors.size(); i++) {
-			ValidationError error = errors.get(i);
-
-			sb.append(i + 1);
-			sb.append(". ");
-			sb.append(error);
-			sb.append("\n");
-		}
+		
+		sb.append(getErrorsAsString());
 
 		return sb.toString();
 	}

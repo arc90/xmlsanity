@@ -1,7 +1,7 @@
 package com.arc90.xmlsanity.util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /***
 * Based on http://sourcemaking.com/design_patterns/object_pool/java
@@ -10,8 +10,8 @@ public abstract class Pool<T>
 {
 	private long expirationTime;
 
-	private final Map<T, Long> locked = new HashMap<T, Long>();
-	private final Map<T, Long> unlocked = new HashMap<T, Long>();
+	private final Map<T, Long> locked = new ConcurrentHashMap<T, Long>();
+	private final Map<T, Long> unlocked = new ConcurrentHashMap<T, Long>();
 
 	/**
 	 * Constructor which uses the default expiration time of 5 minutes.

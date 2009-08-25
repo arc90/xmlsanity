@@ -24,7 +24,7 @@ class ValidatorPool extends Pool<javax.xml.validation.Validator>
 	
 	private final Logger logger = Logger.getLogger(ValidatorPool.class.getName());
 	
-    public ValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
+    protected ValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
     {
         if (schemaFile.exists() == false)
         {
@@ -87,7 +87,8 @@ class ValidatorPool extends Pool<javax.xml.validation.Validator>
 	@Override
 	public boolean validate(Validator o)
 	{
-		return true;
+		// TODO: Check whether the schema instance which produced the validator has expired
+	    return true;
 	}
 
 }

@@ -7,7 +7,7 @@
 	<ProducerCode>tim@arc90.com</ProducerCode>
 	<UserAgent>pxClient 3.5.0.9; WIN 10,0,22,87; ActiveX; Windows XP</UserAgent>
 	<BaseCriteria>
-		<BaseCriterion names="Carrier" value="Occidental Fire and Casualty Co of NC"/>
+		<BaseCriterion name="Carrier" value="Occidental Fire and Casualty Co of NC"/>
 		<BaseCriterion name="Product" value="HO3"/>
 		<BaseCriterion name="EffectiveDateRange" value="08/12/2009"/>
 	</BaseCriteria>

@@ -8,12 +8,12 @@ public class ValidationError
 	private int lineNumber = -1;
 	private int columnNumber = -1;
 	
-	public ValidationError(String message)
+	protected ValidationError(String message)
 	{
 		this.message = message;
 	}
 
-	public ValidationError(SAXParseException exception)
+	protected ValidationError(SAXParseException exception)
 	{
 		if (exception.getMessage().contains(":"))
 		{

@@ -1,4 +1,4 @@
-#!/usr/bin/env groovy -cp ../../lib/saxon9.jar:../../lib/jdom.jar:../../bin
+#!/usr/bin/env groovy -cp ../../lib/jdom.jar:../../lib/org.restlet.jar:../../lib/com.noelios.restlet.jar:../../bin
 
 import com.arc90.xmlsanity.transformation.Transformer
 
