@@ -17,6 +17,10 @@ public class TransformationResult
     protected TransformerException error        = null;
     protected final StreamResult   streamResult = new StreamResult(new StringWriter());
 
+    protected TransformationResult()
+    {
+    }
+    
     public boolean errorExists()
     {
         return error != null;
