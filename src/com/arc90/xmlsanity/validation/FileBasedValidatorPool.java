@@ -85,8 +85,7 @@ class FileBasedValidatorPool extends ValidatorPool
 	@Override
 	public boolean validate(Validator o)
 	{
-		// TODO: Check whether the schema instance which produced the validator has expired
-	    return true;
+	    return getTimeCreated(o) > schemaDateTime;
 	}
 
 }

@@ -112,4 +112,14 @@ public abstract class Pool<T>
     }
 
     protected abstract T create() throws PoolException;
+
+    /**
+     * 
+     * @param o an object which was checked out from this pool
+     * @return the time this object was created, number of milliseconds between the time this object was created and midnight, January 1, 1970 UTC. If the object was not checked out from this pool, or was checked in before this method was called, will return null.
+     */
+    public long getTimeCreated(T o)
+    {
+        return out.get(o);
+    }
 }

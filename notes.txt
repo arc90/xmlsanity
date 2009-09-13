@@ -2,38 +2,40 @@ XML SANITY 1.0
 
 
 Validator
--- DONE make sure it never downloads DTDs from w3.org
--- DONE add Validator(InputStream)
--- NEED HELP add Validator(Resource)
--- NEED HELP add setSchemaResolver() and/or accept one in the constructor
--- FileBasedValidatorPool -- validate() should actually validate() 
+	-- DONE make sure it never downloads DTDs from w3.org
+	-- DONE add Validator(InputStream)
+	-- NEED HELP add Validator(Resource)
+	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor
+	-- DONE FileBasedValidatorPool -- validate() should actually validate() 
 
 
 Transformation
--- make sure it never downloads DTDs from w3.org
--- Create TransformationException
--- TransformerPool -- validate() should actually validate()
+	-- make sure it never downloads DTDs from w3.org
+	-- Create TransformationException
+	-- TransformerPool -- validate() should actually validate()
 
 
 Transformer
-
--- add Transformer(InputStream)
--- add Transformer(Resource)
--- maybe add setResolver() and/or accept one in the constructor
--- change Transformer(Document) to Transformer(Parent)
-
--- change transform() to only throw TransformationException, wrapping other exceptions when appropriate
+	-- add Transformer(InputStream)
+	-- add Transformer(Resource)
+	-- maybe add setResolver() and/or accept one in the constructor
+	-- change Transformer(Document) to Transformer(Parent)
+	-- change transform() to only throw TransformationException, wrapping other exceptions when appropriate
 
 
 TransformationResult
--- either have getError() return a TransformationException
-    or maybe consider having it return a TransformationError
-    
--- Add convenience method: String getErrorMessage()
+	-- either have getError() return a TransformationException
+    	or maybe consider having it return a TransformationError
+  	-- Add convenience method: String getErrorMessage()
+
+
+Testing
+	-- Hey, how about some unit tests?
+
+
 
 
 -----------------------------------------------
-
 
 
 FOR LATER VERSIONS
