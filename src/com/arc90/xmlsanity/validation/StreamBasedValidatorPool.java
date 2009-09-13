@@ -18,10 +18,15 @@ class StreamBasedValidatorPool extends ValidatorPool
 
     protected StreamBasedValidatorPool(InputStream inputStream) throws SAXException
     {
+        this(inputStream, null);
+    }
+    
+    protected StreamBasedValidatorPool(InputStream inputStream, String baseURI) throws SAXException
+    {
         super();
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         prepSchemaFactory(schemaFactory);
-        this.schema = schemaFactory.newSchema(new StreamSource(inputStream));
+        this.schema = schemaFactory.newSchema(new StreamSource(inputStream));        
     }
 
     @Override

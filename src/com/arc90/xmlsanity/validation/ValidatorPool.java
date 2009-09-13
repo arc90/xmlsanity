@@ -16,6 +16,8 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
 
     void prepSchemaFactory(SchemaFactory schemaFactory)
     {
+        schemaFactory.setResourceResolver(new ResourceResolver());
+        
         try
         {
             schemaFactory.setFeature("http://xml.org/sax/features/validation", true);
@@ -36,6 +38,8 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
     
     void prepValidator(javax.xml.validation.Validator validator)
     {
+        validator.setResourceResolver(new ResourceResolver());
+        
         try
         {
             validator.setFeature("http://xml.org/sax/features/validation", true);
