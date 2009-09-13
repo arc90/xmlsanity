@@ -37,6 +37,9 @@ public class TransformationResult
         return writer.getBuffer().length() > 0;
     }
 
+    /***
+     * @return If output exists, the output. If no output exists, and error(s) exist, the error(s). Otherwise, an empty String.
+     */
     public String toString()
     {
         if (outputExists())
@@ -55,7 +58,7 @@ public class TransformationResult
 
     /**
      * 
-     * @return If output exists, a JDOM Document of that output. Otherwise, an empty Document.
+     * @return If output exists, a JDOM Document of that output. Otherwise, null.
      * @throws JDOMException
      * @throws IOException
      */
@@ -63,8 +66,7 @@ public class TransformationResult
     {
         if (!outputExists())
         {
-            // TODO: maybe this should return null?
-            return new Document();
+            return null;
         }
 
         return new SAXBuilder().build(new StringReader(this.toString()));
