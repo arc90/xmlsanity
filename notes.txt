@@ -11,8 +11,8 @@ Validator
 
 -- need to be able to initialize using a InputStream or a Resource
 
--- add Validator(InputStream)
--- add Validator(Resource)
+-- add Validator(InputStream) DONE
+-- add Validator(Resource) NEED HELP
 -- add setSchemaResolver() and/or accept one in the constructor
 
 -- maybe add Validator(Channel)

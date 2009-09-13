@@ -12,11 +12,10 @@ import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
 
-import com.arc90.xmlsanity.util.Pool;
-
-class FileBasedValidatorPool extends Pool<javax.xml.validation.Validator>
+class FileBasedValidatorPool extends ValidatorPool
 {
     protected final File schemaFile;
+    protected final SchemaFactory schemaFactory;
     protected final Object schemaLock = new Object();
     
     protected volatile Schema schema;
@@ -34,6 +33,9 @@ class FileBasedValidatorPool extends Pool<javax.xml.validation.Validator>
         }
         
         this.schemaFile = schemaFile;
+        
+        this.schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        prepSchemaFactory(this.schemaFactory);
         
         // Initialize the schema, which will test that it's valid
         getSchema();
@@ -60,8 +62,8 @@ class FileBasedValidatorPool extends Pool<javax.xml.validation.Validator>
             {
                 throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
             }
-            
-            schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaFile);
+                        
+            schema = schemaFactory.newSchema(schemaFile);
             schemaDateTime = schemaFile.lastModified();
         }
     }

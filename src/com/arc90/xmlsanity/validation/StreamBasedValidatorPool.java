@@ -11,9 +11,7 @@ import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
 
-import com.arc90.xmlsanity.util.Pool;
-
-class StreamBasedValidatorPool extends Pool<javax.xml.validation.Validator>
+class StreamBasedValidatorPool extends ValidatorPool
 {
     protected final Logger  logger                = Logger.getLogger(StreamBasedValidatorPool.class.getName());
     protected final Schema  schema;
@@ -21,13 +19,17 @@ class StreamBasedValidatorPool extends Pool<javax.xml.validation.Validator>
     protected StreamBasedValidatorPool(InputStream inputStream) throws SAXException
     {
         super();
-        this.schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(new StreamSource(inputStream));
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        prepSchemaFactory(schemaFactory);
+        this.schema = schemaFactory.newSchema(new StreamSource(inputStream));
     }
 
     @Override
     protected Validator create()
     {
-        return schema.newValidator();
+        javax.xml.validation.Validator validator = schema.newValidator();
+        prepValidator(validator);
+        return validator;
     }
 
 }
