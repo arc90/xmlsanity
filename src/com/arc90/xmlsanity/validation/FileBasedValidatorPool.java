@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.arc90.xmlsanity.util.Pool;
 
-class ValidatorPool extends Pool<javax.xml.validation.Validator>
+class FileBasedValidatorPool extends Pool<javax.xml.validation.Validator>
 {
     protected final File schemaFile;
     protected final Object schemaLock = new Object();
@@ -22,10 +22,12 @@ class ValidatorPool extends Pool<javax.xml.validation.Validator>
     protected volatile Schema schema;
 	protected volatile long schemaDateTime;
 	
-	private final Logger logger = Logger.getLogger(ValidatorPool.class.getName());
+	private final Logger logger = Logger.getLogger(FileBasedValidatorPool.class.getName());
 	
-    protected ValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
+    protected FileBasedValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
     {
+        super();
+        
         if (schemaFile.exists() == false)
         {
             throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
@@ -78,12 +80,6 @@ class ValidatorPool extends Pool<javax.xml.validation.Validator>
         }
 	}	
 	
-	@Override
-	public void expire(Validator o)
-	{
-	    // No need to do anything.
-	}
-
 	@Override
 	public boolean validate(Validator o)
 	{

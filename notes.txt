@@ -3,6 +3,9 @@
 
 XML SANITY 1.0
 
+Everywhere
+-- make sure it never downloads DTDs from w3.org
+
 
 Validator
 

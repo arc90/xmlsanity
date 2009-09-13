@@ -77,7 +77,7 @@ class TransformerPool extends Pool<javax.xml.transform.Transformer>
 	}	
 	
 	@Override
-	public void expire(javax.xml.transform.Transformer o)
+	public void destroy(javax.xml.transform.Transformer o)
 	{		
 	}
 

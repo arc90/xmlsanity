@@ -18,6 +18,7 @@ import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.arc90.xmlsanity.util.Pool;
 import com.arc90.xmlsanity.util.PoolException;
 
 /***
@@ -34,11 +35,16 @@ import com.arc90.xmlsanity.util.PoolException;
  */
 public class Validator
 {
-    protected final ValidatorPool validatorPool;
+    protected final Pool<javax.xml.validation.Validator> validatorPool;
 
     public Validator(File schemaFile) throws FileNotFoundException, SAXException
     {
-        validatorPool = new ValidatorPool(schemaFile);
+        validatorPool = new FileBasedValidatorPool(schemaFile);
+    }
+    
+    public Validator(InputStream inputStream) throws SAXException
+    {
+        validatorPool = new StreamBasedValidatorPool(inputStream);
     }
 
     public ValidationResult validate(Parent content) throws ValidationException

@@ -4,81 +4,112 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /***
-* Based on http://sourcemaking.com/design_patterns/object_pool/java
-***/
+ * Based on http://sourcemaking.com/design_patterns/object_pool/java
+ ***/
 public abstract class Pool<T>
 {
-	private long expirationTime;
+    public final static int    DEFAULT_EXPIRATION_SECONDS = 300;
+    public final static int    DEFAULT_MAX_TO_RETAIN      = 255;
 
-	private final Map<T, Long> locked = new ConcurrentHashMap<T, Long>();
-	private final Map<T, Long> unlocked = new ConcurrentHashMap<T, Long>();
+    protected final int        maxToRetain;
+    private final long         expirationMs;
 
-	/**
-	 * Constructor which uses the default expiration time of 5 minutes.
-	 */
-	public Pool()
-	{
-	    this(300);
-	}
-	
-	public Pool(long expirationSeconds)
-	{
-		expirationTime = expirationSeconds * 1000;
-	}
+    private final Map<T, Long> in                         = new ConcurrentHashMap<T, Long>();
+    private final Map<T, Long> out                        = new ConcurrentHashMap<T, Long>();
 
-	protected abstract T create() throws PoolException;
+    /**
+     * Constructor which uses the default expiration time of 5 minutes.
+     */
+    public Pool()
+    {
+        this(DEFAULT_EXPIRATION_SECONDS, DEFAULT_MAX_TO_RETAIN);
+    }
 
-	public abstract boolean validate(T o);
+    public Pool(int expirationSeconds)
+    {
+        this(expirationSeconds, DEFAULT_MAX_TO_RETAIN);
+    }
 
-	public abstract void expire(T o);
+    public Pool(int expirationSeconds, int maxToRetain)
+    {
+        this.expirationMs = expirationSeconds * 1000;
+        this.maxToRetain = maxToRetain;
+    }
 
-	public synchronized T checkOut() throws PoolException
-	{
-		long now = System.currentTimeMillis();
-		
-		T t;
-		
-		if (unlocked.size() > 0)
-		{
-			for (T tt : unlocked.keySet())
-			{
-				t = tt;
-				
-				if ((now - unlocked.get(t)) > expirationTime)
-				{
-					// object has expired
-					unlocked.remove(t);
-					expire(t);
-					t = null;
-				}
-				else
-				{
-					if (validate(t))
-					{
-						unlocked.remove(t);
-						locked.put(t, now);
-						return (t);
-					}
-					else
-					{
-						// object failed validation
-						unlocked.remove(t);
-						expire(t);
-						t = null;
-					}
-				}
-			}
-		}
-		
-		// no objects available, create a new one
-		t = create();
-		locked.put(t, now);
-		return (t);
-	}
+    public synchronized void checkIn(T t)
+    {
+        out.remove(t);
 
-	public synchronized void checkIn(T t)
-	{
-		locked.remove(t);
-		unlocked.put(t, System.currentTimeMillis());
-	}
+        if (in.size() < maxToRetain)
+        {
+            in.put(t, System.currentTimeMillis());
+        }
+    }
+
+    public synchronized T checkOut() throws PoolException
+    {
+        long now = System.currentTimeMillis();
+
+        T t;
+
+        if (in.size() > 0)
+        {
+            for (T tt : in.keySet())
+            {
+                t = tt;
+
+                if ((now - in.get(t)) > expirationMs)
+                {
+                    // object has expired
+                    in.remove(t);
+                    destroy(t);
+                    t = null;
+                }
+                else
+                {
+                    if (validate(t))
+                    {
+                        in.remove(t);
+                        out.put(t, now);
+                        return (t);
+                    }
+                    else
+                    {
+                        // object failed validation
+                        in.remove(t);
+                        destroy(t);
+                        t = null;
+                    }
+                }
+            }
+        }
+
+        // no objects available, create a new one
+        t = create();
+        out.put(t, now);
+        return (t);
+    }
+
+    /**
+     * Default implementation does nothing.
+     * 
+     * @param o
+     */
+    public void destroy(T o)
+    {
+        // default does nothing
+    }
+
+    /**
+     * Default implementation always returns true.
+     * 
+     * @param o
+     * @return
+     */
+    public boolean validate(T o)
+    {
+        return true;
+    }
+
+    protected abstract T create() throws PoolException;
 }
