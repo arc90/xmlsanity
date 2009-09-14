@@ -63,13 +63,10 @@ public class TransformationResult
         {
             return streamResult.getWriter().toString();
         }
-        else if (errorExists())
-        {
-            return error.getMessageAndLocation();
-        }
         else
         {
-            return "";
+            // will return an empty string if there's no error
+            return error.getMessageAndLocation();
         }
     }
 
