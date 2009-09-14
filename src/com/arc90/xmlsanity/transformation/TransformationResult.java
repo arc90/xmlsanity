@@ -15,6 +15,12 @@ public class TransformationResult
 {
 
     protected TransformerException error        = null;
+
+    // TODO: look into using a stream instead of a string for better performance
+    
+    /**
+     * used to store the result, if and when there is one
+     */
     protected final StreamResult   streamResult = new StreamResult(new StringWriter());
 
     protected TransformationResult()
@@ -26,9 +32,19 @@ public class TransformationResult
         return error != null;
     }
 
-    public TransformerException getError()
+    public String getErrorMessage()
     {
-        return error;
+        return error.getMessage();
+    }
+    
+    public String getErrorLocation()
+    {
+        return error.getLocationAsString();
+    }
+    
+    public String getErrorMessageAndLocation()
+    {
+        return error.getMessageAndLocation();
     }
 
     public boolean outputExists()

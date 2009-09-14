@@ -3,7 +3,6 @@ package com.arc90.xmlsanity.transformation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +12,10 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.sax.SAXSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.jdom.Document;
-import org.jdom.JDOMException;
+import org.jdom.Element;
+import org.jdom.Parent;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 
@@ -36,7 +35,6 @@ public class Transformer
 {
     protected final Map<String, String> defaultParams;
     protected final TransformerPool     transformerPool;
-    protected StreamResult              result = null;
 
     public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
@@ -55,36 +53,56 @@ public class Transformer
         this.defaultParams = defaultParams;
     }
 
-    public TransformationResult transform(File original) throws FileNotFoundException, TransformerException
+    public TransformationResult transform(File original) throws TransformationException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(File original, Map<String, String> params) throws FileNotFoundException, TransformerException
+    public TransformationResult transform(File original, Map<String, String> params) throws TransformationException
     {
-        Source source = new SAXSource(new InputSource(new FileReader(original)));
-        return transform(source, params);
+        try
+        {
+            Source source = new SAXSource(new InputSource(new FileReader(original)));
+            return transform(source, params);
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new TransformationException(e);
+        }
     }
 
-    public TransformationResult transform(String original) throws TransformerException
+    public TransformationResult transform(String original) throws TransformationException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(String original, Map<String, String> params) throws TransformerException
+    public TransformationResult transform(String original, Map<String, String> params) throws TransformationException
     {
         Source source = new SAXSource(new InputSource(new StringReader(original)));
         return transform(source, params);
     }
 
-    public TransformationResult transform(Document original) throws JDOMException, IOException, TransformerException
+    public TransformationResult transform(Parent original) throws TransformationException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(Document original, Map<String, String> params) throws JDOMException, IOException, TransformerException
+    public TransformationResult transform(Parent original, Map<String, String> params) throws TransformationException
     {
-        return transform(new XMLOutputter().outputString(original), params);
+        // TODO: Look into using XMLOutputter.output() with streams instead of a String, for better performance
+        
+        if (original instanceof Document)
+        {
+            return transform(new XMLOutputter().outputString((Document) original), params);
+        }
+        else if (original instanceof Element)
+        {
+            return transform(new XMLOutputter().outputString((Element) original), params);
+        }
+        else
+        {
+            throw new TransformationException("The object to transform must be either a JDOM Document or a Element. The passed object is of type " + original.getClass().getName());
+        }
     }
 
     protected javax.xml.transform.Transformer getTransformer() throws PoolException
@@ -94,12 +112,11 @@ public class Transformer
 
     protected void returnTransformer(javax.xml.transform.Transformer transformer)
     {
-        result = null;
         transformer.clearParameters();
         transformerPool.checkIn(transformer);
     }
 
-    protected TransformationResult transform(Source source, Map<String, String> params) throws TransformerException
+    protected TransformationResult transform(Source source, Map<String, String> params) throws TransformationException
     {
         javax.xml.transform.Transformer transformer;
 
@@ -109,7 +126,7 @@ public class Transformer
         }
         catch (PoolException e)
         {
-            throw new TransformerException(e);
+            throw new TransformationException(e);
         }
 
         for (String name : defaultParams.keySet())

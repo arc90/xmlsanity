@@ -11,22 +11,20 @@ Validator
 
 Transformation
 	-- make sure it never downloads DTDs from w3.org
-	-- Create TransformationException
+	-- DONE Create TransformationException
 	-- TransformerPool -- validate() should actually validate()
-
 
 Transformer
 	-- add Transformer(InputStream)
 	-- add Transformer(Resource)
 	-- maybe add setResolver() and/or accept one in the constructor
-	-- change Transformer(Document) to Transformer(Parent)
-	-- change transform() to only throw TransformationException, wrapping other exceptions when appropriate
+	-- DONE change transform(Document) to transform(Parent)
+	-- DONE change transform() to only throw TransformationException, wrapping other exceptions when appropriate
 
 
 TransformationResult
-	-- either have getError() return a TransformationException
-    	or maybe consider having it return a TransformationError
-  	-- Add convenience method: String getErrorMessage()
+	-- WONTFIX either have getError() return a TransformationException or maybe consider having it return a TransformationError
+  	-- DONE Add convenience methods: String getErrorMessage(), String getErrorLocation(), String getErrorMessageAndLocation()
 
 
 Testing
