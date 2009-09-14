@@ -4,22 +4,22 @@ XML SANITY 1.0
 Validator
 	-- DONE make sure it never downloads DTDs from w3.org
 	-- DONE add Validator(InputStream)
+	-- DONE FileBasedValidatorPool -- validate() should actually validate
 	-- NEED HELP add Validator(Resource)
-	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor
-	-- DONE FileBasedValidatorPool -- validate() should actually validate() 
+	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor 
 
 
 Transformation
-	-- make sure it never downloads DTDs from w3.org
 	-- DONE Create TransformationException
-	-- TransformerPool -- validate() should actually validate()
+	-- make sure it never downloads DTDs from w3.org
+	-- TransformerPool -- validate() should actually validate
 
 Transformer
+	-- DONE change transform(Document) to transform(Parent)
+	-- DONE change transform() to only throw TransformationException, wrapping other exceptions when appropriate
 	-- add Transformer(InputStream)
 	-- add Transformer(Resource)
 	-- maybe add setResolver() and/or accept one in the constructor
-	-- DONE change transform(Document) to transform(Parent)
-	-- DONE change transform() to only throw TransformationException, wrapping other exceptions when appropriate
 
 
 TransformationResult

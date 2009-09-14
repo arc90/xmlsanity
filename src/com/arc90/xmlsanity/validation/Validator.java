@@ -42,9 +42,9 @@ public class Validator
         validatorPool = new FileBasedValidatorPool(schemaFile);
     }
     
-    public Validator(InputStream inputStream) throws SAXException
+    public Validator(InputStream schemaInputStream) throws SAXException
     {
-        validatorPool = new StreamBasedValidatorPool(inputStream);
+        validatorPool = new StreamBasedValidatorPool(schemaInputStream);
     }
 
     public ValidationResult validate(Parent content) throws ValidationException

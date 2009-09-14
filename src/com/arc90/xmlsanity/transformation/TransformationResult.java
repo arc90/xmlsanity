@@ -17,7 +17,7 @@ public class TransformationResult
     protected TransformerException error        = null;
 
     // TODO: look into using a stream instead of a string for better performance
-    
+
     /**
      * used to store the result, if and when there is one
      */
@@ -26,7 +26,7 @@ public class TransformationResult
     protected TransformationResult()
     {
     }
-    
+
     public boolean errorExists()
     {
         return error != null;
@@ -34,17 +34,17 @@ public class TransformationResult
 
     public String getErrorMessage()
     {
-        return error.getMessage();
+        return errorExists() ? error.getMessage() : "";
     }
-    
+
     public String getErrorLocation()
     {
-        return error.getLocationAsString();
+        return errorExists() ? error.getLocationAsString() : "";
     }
-    
+
     public String getErrorMessageAndLocation()
     {
-        return error.getMessageAndLocation();
+        return errorExists() ? error.getMessageAndLocation() : "";
     }
 
     public boolean outputExists()
@@ -54,7 +54,8 @@ public class TransformationResult
     }
 
     /***
-     * @return If output exists, the output. If no output exists, and error(s) exist, the error(s). Otherwise, an empty String.
+     * @return If output exists, the output. If no output exists, and error(s)
+     *         exist, the error(s). Otherwise, an empty String.
      */
     public String toString()
     {
@@ -74,7 +75,8 @@ public class TransformationResult
 
     /**
      * 
-     * @return If output exists, a JDOM Document of that output. Otherwise, null.
+     * @return If output exists, a JDOM Document of that output. Otherwise,
+     *         null.
      * @throws JDOMException
      * @throws IOException
      */
