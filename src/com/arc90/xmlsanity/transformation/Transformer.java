@@ -34,7 +34,7 @@ import com.arc90.xmlsanity.util.PoolException;
 public class Transformer
 {
     protected final Map<String, String> defaultParams;
-    protected final TransformerPool     transformerPool;
+    protected final FileBasedTransformerPool     transformerPool;
 
     public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
@@ -43,7 +43,7 @@ public class Transformer
 
     public Transformer(File xsltFile, Map<String, String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
-        transformerPool = new TransformerPool(xsltFile);
+        transformerPool = new FileBasedTransformerPool(xsltFile);
 
         if (defaultParams == null)
         {

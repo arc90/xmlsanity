@@ -13,16 +13,16 @@ import javax.xml.transform.stream.StreamSource;
 
 import com.arc90.xmlsanity.util.Pool;
 
-class TransformerPool extends Pool<javax.xml.transform.Transformer>
+class FileBasedTransformerPool extends Pool<javax.xml.transform.Transformer>
 {
 	protected final File xsltFile;
 	protected final Object templatesLock = new Object();
 	protected volatile Templates templates;
     protected volatile long templatesDateTime;
     
-    private final Logger logger = Logger.getLogger(TransformerPool.class.getName());
+    private final Logger logger = Logger.getLogger(FileBasedTransformerPool.class.getName());
 	
-	public TransformerPool(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+	public FileBasedTransformerPool(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
 	{
         if (xsltFile.exists() == false)
         {
