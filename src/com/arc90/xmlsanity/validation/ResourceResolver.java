@@ -12,7 +12,7 @@ import org.w3c.dom.ls.LSResourceResolver;
  * From http://pbin.oogly.co.uk/listings/viewlistingdetail/2
  * a70d763929ce3053085bfaa1d78e2 From
  * http://stackoverflow.com/questions/1094893/
- * validate-an-xml-file-against-multiple-schema-definitions/1105871#1105871
+ * validate- an-xml-file-against-multiple-schema-definitions/1105871#1105871
  * 
  * @author Jon http://stackoverflow.com/users/82865/jon
  * @author Avi Flax

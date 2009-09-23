@@ -20,10 +20,9 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
         
         try
         {
+            // I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
             schemaFactory.setFeature("http://xml.org/sax/features/validation", true);
             schemaFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-
-            // just in case
             schemaFactory.setFeature("http://saxon.sf.net/feature/validation", false);
         }
         catch (SAXNotRecognizedException e)
@@ -42,10 +41,9 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
         
         try
         {
+            // I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
             validator.setFeature("http://xml.org/sax/features/validation", true);
             validator.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-
-            // just in case
             validator.setFeature("http://saxon.sf.net/feature/validation", false);
         }
         catch (SAXNotRecognizedException e)

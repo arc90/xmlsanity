@@ -5,7 +5,7 @@ Validator
 	-- DONE make sure it never downloads DTDs from w3.org
 	-- DONE add Validator(InputStream)
 	-- DONE FileBasedValidatorPool -- validate() should actually validate
-	-- NEED HELP add Validator(Resource)
+	-- CANCELED add Validator(Resource)
 	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor 
 
 
