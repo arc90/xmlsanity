@@ -8,7 +8,8 @@ TO DO
 -- Validation: Support Resource Resolution
 -- Transformation: Support Resource Resolution
 -- Tests: Have unit tests
-
+-- Documentation: improve javadocs
+-- Documentation: write usage guide
 
 
 -----------------
