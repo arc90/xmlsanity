@@ -8,18 +8,20 @@ Validator
 	-- CANCELED add Validator(Resource)
 	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor 
 
+Validation
+	-- Add Schematron support
 
 Transformation
 	-- DONE Create TransformationException
-	-- make sure it never downloads DTDs from w3.org
-	-- TransformerPool -- validate() should actually validate
+	-- DONE make sure it never downloads DTDs from w3.org
+	-- DONE TransformerPool -- validate() should actually validate
 
 Transformer
 	-- DONE change transform(Document) to transform(Parent)
 	-- DONE change transform() to only throw TransformationException, wrapping other exceptions when appropriate
-	-- add Transformer(InputStream)
-	-- add Transformer(Resource)
-	-- maybe add setResolver() and/or accept one in the constructor
+	-- DONE add Transformer(InputStream)
+	-- CANCELED add Transformer(Resource)
+	-- NEED HELP maybe add setResolver() and/or accept one in the constructor
 
 
 TransformationResult

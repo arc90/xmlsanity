@@ -3,6 +3,7 @@ package com.arc90.xmlsanity.transformation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +35,7 @@ import com.arc90.xmlsanity.util.PoolException;
 public class Transformer
 {
     protected final Map<String, String> defaultParams;
-    protected final FileBasedTransformerPool     transformerPool;
+    protected final TransformerPool     transformerPool;
 
     public Transformer(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
@@ -53,6 +54,23 @@ public class Transformer
         this.defaultParams = defaultParams;
     }
 
+    public Transformer(InputStream xsltStream) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+    {
+        this(xsltStream, null);
+    }    
+    
+    public Transformer(InputStream xsltStream, Map<String, String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+    {
+        transformerPool = new StreamBasedTransformerPool(xsltStream);
+
+        if (defaultParams == null)
+        {
+            defaultParams = new HashMap<String, String>();
+        }
+
+        this.defaultParams = defaultParams;
+    }    
+    
     public TransformationResult transform(File original) throws TransformationException
     {
         return transform(original, null);

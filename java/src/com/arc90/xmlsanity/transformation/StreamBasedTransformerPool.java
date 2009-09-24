@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamSource;
 
@@ -21,7 +20,7 @@ class StreamBasedTransformerPool extends TransformerPool
     public StreamBasedTransformerPool(InputStream inputStream) throws TransformerConfigurationException, TransformerFactoryConfigurationError
     {
         super();
-        templates = TransformerFactory.newInstance().newTemplates(new StreamSource(inputStream));
+        templates = transformerFactory.newTemplates(new StreamSource(inputStream));
     }
 
     @Override

@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamSource;
 
@@ -15,7 +14,6 @@ class FileBasedTransformerPool extends TransformerPool
 {
     protected final File         xsltFile;
     protected final Object       templatesLock = new Object();
-    protected final TransformerFactory transformerFactory;
     protected volatile Templates templates;
     protected volatile long      templatesDateTime;
 
@@ -23,6 +21,8 @@ class FileBasedTransformerPool extends TransformerPool
 
     public FileBasedTransformerPool(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
+        super();
+        
         if (xsltFile.exists() == false)
         {
             throw new FileNotFoundException("The file " + xsltFile.getAbsolutePath() + " does not exist.");
@@ -30,8 +30,6 @@ class FileBasedTransformerPool extends TransformerPool
 
         this.xsltFile = xsltFile;
 
-        this.transformerFactory = TransformerFactory.newInstance();
-        
         // Initialize the templates, which will test that it's valid
         getTemplates();
     }
@@ -76,5 +74,10 @@ class FileBasedTransformerPool extends TransformerPool
             throw new RuntimeException(e);
         }
     }
-
+    
+    @Override
+    public boolean validate(javax.xml.transform.Transformer transformer)
+    {
+        return getTimeCreated(transformer) > templatesDateTime;
+    }
 }

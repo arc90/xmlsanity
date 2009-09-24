@@ -11,9 +11,12 @@ import com.arc90.xmlsanity.util.Pool;
 abstract class TransformerPool extends Pool<javax.xml.transform.Transformer>
 {
     protected static final Logger logger = Logger.getLogger(TransformerPool.class.getName());
+    protected final TransformerFactory transformerFactory;
     
-    protected void prepTransformerFactory(TransformerFactory transformerFactory)
+    protected TransformerPool()
     {
+        transformerFactory = TransformerFactory.newInstance();
+        
         try
         {
             // I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
