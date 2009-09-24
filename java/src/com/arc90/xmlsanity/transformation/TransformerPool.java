@@ -8,7 +8,7 @@ import javax.xml.transform.TransformerFactory;
 
 import com.arc90.xmlsanity.util.Pool;
 
-public abstract class TransformerPool extends Pool<javax.xml.transform.Transformer>
+abstract class TransformerPool extends Pool<javax.xml.transform.Transformer>
 {
     protected static final Logger logger = Logger.getLogger(TransformerPool.class.getName());
     
