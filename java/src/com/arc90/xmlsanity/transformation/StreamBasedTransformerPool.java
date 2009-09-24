@@ -19,8 +19,7 @@ class StreamBasedTransformerPool extends TransformerPool
 
     public StreamBasedTransformerPool(InputStream inputStream) throws TransformerConfigurationException, TransformerFactoryConfigurationError
     {
-        super();
-        templates = transformerFactory.newTemplates(new StreamSource(inputStream));
+        templates = getTransformerFactory().newTemplates(new StreamSource(inputStream));
     }
 
     @Override

@@ -12,12 +12,13 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.Parent;
 import org.jdom.output.XMLOutputter;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import com.arc90.xmlsanity.util.PoolException;
@@ -100,28 +101,38 @@ public class Transformer
         return transform(source, params);
     }
 
-    public TransformationResult transform(Parent original) throws TransformationException
+    public TransformationResult transform(Node original) throws TransformationException
     {
         return transform(original, null);
     }
 
-    public TransformationResult transform(Parent original, Map<String, String> params) throws TransformationException
+    public TransformationResult transform(Node original, Map<String, String> params) throws TransformationException
+    {
+        Source source = new DOMSource(original);
+        return transform(source, params);
+    }    
+    
+    public TransformationResult transform(Document original) throws TransformationException
+    {
+        return transform(original, null);
+    }
+
+    public TransformationResult transform(Document original, Map<String, String> params) throws TransformationException
     {
         // TODO: Look into using XMLOutputter.output() with streams instead of a String, for better performance
-        
-        if (original instanceof Document)
-        {
-            return transform(new XMLOutputter().outputString((Document) original), params);
-        }
-        else if (original instanceof Element)
-        {
-            return transform(new XMLOutputter().outputString((Element) original), params);
-        }
-        else
-        {
-            throw new TransformationException("The object to transform must be either a JDOM Document or a Element. The passed object is of type " + original.getClass().getName());
-        }
+        return transform(new XMLOutputter().outputString(original), params);
     }
+    
+    public TransformationResult transform(Element original) throws TransformationException
+    {
+        return transform(original, null);
+    }
+
+    public TransformationResult transform(Element original, Map<String, String> params) throws TransformationException
+    {
+        // TODO: Look into using XMLOutputter.output() with streams instead of a String, for better performance
+        return transform(new XMLOutputter().outputString(original), params);
+    }    
 
     protected javax.xml.transform.Transformer getTransformer() throws PoolException
     {

@@ -14,17 +14,15 @@ import com.arc90.xmlsanity.util.Pool;
 abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {
     protected final Logger        logger = Logger.getLogger(ValidatorPool.class.getName());
-    protected final SchemaFactory schemaFactory;
 
-    protected ValidatorPool()
+    SchemaFactory getSchemaFactory()
     {
-        schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         schemaFactory.setResourceResolver(new ResourceResolver());
 
         try
         {
-            // I'm not sure if this is the complete set that's needed -- TESTING
-            // NEEDED!
+            // TODO: I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
             schemaFactory.setFeature("http://xml.org/sax/features/validation", true);
             schemaFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             schemaFactory.setFeature("http://saxon.sf.net/feature/validation", false);
@@ -37,8 +35,10 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
         {
             logger.log(Level.FINE, e.getMessage(), e);
         }
+        
+        return schemaFactory;
     }
-
+    
     void prepValidator(javax.xml.validation.Validator validator)
     {
         validator.setResourceResolver(new ResourceResolver());

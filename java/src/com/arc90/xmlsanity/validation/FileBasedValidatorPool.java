@@ -20,8 +20,6 @@ class FileBasedValidatorPool extends ValidatorPool
 
     protected FileBasedValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
     {
-        super();
-
         if (schemaFile.exists() == false)
         {
             throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
@@ -55,7 +53,7 @@ class FileBasedValidatorPool extends ValidatorPool
                 throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
             }
 
-            schema = schemaFactory.newSchema(schemaFile);
+            schema = getSchemaFactory().newSchema(schemaFile);
             schemaDateTime = schemaFile.lastModified();
         }
     }

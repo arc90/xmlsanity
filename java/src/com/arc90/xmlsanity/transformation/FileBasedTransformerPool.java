@@ -21,8 +21,6 @@ class FileBasedTransformerPool extends TransformerPool
 
     public FileBasedTransformerPool(File xsltFile) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
     {
-        super();
-        
         if (xsltFile.exists() == false)
         {
             throw new FileNotFoundException("The file " + xsltFile.getAbsolutePath() + " does not exist.");
@@ -56,7 +54,7 @@ class FileBasedTransformerPool extends TransformerPool
                 throw new FileNotFoundException("The file " + xsltFile.getAbsolutePath() + " does not exist.");
             }
 
-            templates = transformerFactory.newTemplates(new StreamSource(xsltFile));
+            templates = getTransformerFactory().newTemplates(new StreamSource(xsltFile));
             templatesDateTime = xsltFile.lastModified();
         }
     }

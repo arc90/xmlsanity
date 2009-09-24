@@ -13,8 +13,8 @@ import javax.xml.transform.sax.SAXSource;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.Parent;
 import org.jdom.output.XMLOutputter;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -41,22 +41,20 @@ public class Validator
     {
         validatorPool = new FileBasedValidatorPool(schemaFile);
     }
-    
+
     public Validator(InputStream schemaInputStream) throws SAXException
     {
         validatorPool = new StreamBasedValidatorPool(schemaInputStream);
     }
 
-    public ValidationResult validate(Parent content) throws ValidationException
+    public ValidationResult validate(Document document) throws ValidationException
     {
-        if (content instanceof Document)
-        {
-            return validate(new XMLOutputter().outputString((Document) content));
-        }
-        else
-        {
-            return validate(new XMLOutputter().outputString((Element) content));
-        }
+        return validate(new XMLOutputter().outputString(document));
+    }
+
+    public ValidationResult validate(Element element) throws ValidationException
+    {
+        return validate(new XMLOutputter().outputString(element));
     }
 
     public ValidationResult validate(File content) throws ValidationException
@@ -89,9 +87,9 @@ public class Validator
         return validate(source);
     }
 
-    public ValidationResult validate(org.w3c.dom.Document content) throws ValidationException
+    public ValidationResult validate(Node node) throws ValidationException
     {
-        Source source = new DOMSource(content);
+        Source source = new DOMSource(node);
         return validate(source);
     }
 

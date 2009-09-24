@@ -11,15 +11,14 @@ import com.arc90.xmlsanity.util.Pool;
 abstract class TransformerPool extends Pool<javax.xml.transform.Transformer>
 {
     protected static final Logger logger = Logger.getLogger(TransformerPool.class.getName());
-    protected final TransformerFactory transformerFactory;
     
-    protected TransformerPool()
+    protected TransformerFactory getTransformerFactory()
     {
-        transformerFactory = TransformerFactory.newInstance();
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
         
         try
         {
-            // I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
+            // TODO I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
             transformerFactory.setFeature("http://xml.org/sax/features/validation", true);
             transformerFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
             transformerFactory.setFeature("http://saxon.sf.net/feature/validation", false);
@@ -28,6 +27,7 @@ abstract class TransformerPool extends Pool<javax.xml.transform.Transformer>
         {
             logger.log(Level.FINE, e.getMessage(), e);
         }
+        
+        return transformerFactory;
     }
-    
 }
