@@ -42,7 +42,7 @@ public class TransformationResult
         return errorExists() ? error.getLocationAsString() : "";
     }
 
-    public String getErrorMessageAndLocation()
+    public String getError()
     {
         return errorExists() ? error.getMessageAndLocation() : "";
     }
