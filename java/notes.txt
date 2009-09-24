@@ -1,5 +1,19 @@
 XML SANITY 1.0
 
+-----------------
+TO DO
+-----------------
+
+-- Validation: Add Schematron support
+-- Validation: Support Resource Resolution
+-- Transformation: Support Resource Resolution
+-- Tests: Have unit tests
+
+
+
+-----------------
+DONE
+-----------------
 
 Validator
 	-- DONE make sure it never downloads DTDs from w3.org
