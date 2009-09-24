@@ -18,7 +18,9 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
     SchemaFactory getSchemaFactory()
     {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        schemaFactory.setResourceResolver(new ResourceResolver());
+        
+        // TODO: figure out how this resource resolver stuff works!
+        //schemaFactory.setResourceResolver(new ResourceResolver());
 
         try
         {
