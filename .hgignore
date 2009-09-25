@@ -1,2 +1,7 @@
+syntax: glob
 bin
+obj
+
 .DS_Store
+*.suo
+*.user
