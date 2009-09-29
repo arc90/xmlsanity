@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="Person" type="PersonType"/>
+
+  <xs:complexType name="PersonType">
+    <xs:sequence>
+      <xs:element name="Name" type="NameType"/>
+      <xs:element name="Dates" type="PersonDatesType"/>
+      <xs:element name="Schooling" type="SchoolingType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NameType">
+    <xs:sequence>
+      <xs:element name="First" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Middle" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Last" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="PersonDatesType">
+    <xs:sequence>
+      <xs:element name="Born" type="xs:date" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="Died" type="xs:date" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SchoolingType">
+    <xs:sequence>
+      <xs:element name="School" type="SchoolType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="SchoolType">
+    <xs:sequence>
+      <xs:element name="Name" type="xs:string"/>
+      <xs:element name="Dates" type="SchoolDatesType"/>
+    </xs:sequence>
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="kindergarten"/>
+          <xs:enumeration value="elementary"/>
+          <xs:enumeration value="middle"/>
+          <xs:enumeration value="high"/>
+          <xs:enumeration value="college"/>
+          <xs:enumeration value="post-grad"/>
+          <xs:enumeration value="other"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="SchoolDatesType">
+    <xs:sequence>
+      <xs:element name="Start" type="xs:date"/>
+      <xs:element name="End" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
