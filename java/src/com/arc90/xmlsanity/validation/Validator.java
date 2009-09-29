@@ -11,9 +11,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -45,16 +42,6 @@ public class Validator
     public Validator(InputStream schemaInputStream) throws SAXException
     {
         validatorPool = new StreamBasedValidatorPool(schemaInputStream);
-    }
-
-    public ValidationResult validate(Document document) throws ValidationException
-    {
-        return validate(new XMLOutputter().outputString(document));
-    }
-
-    public ValidationResult validate(Element element) throws ValidationException
-    {
-        return validate(new XMLOutputter().outputString(element));
     }
 
     public ValidationResult validate(File content) throws ValidationException

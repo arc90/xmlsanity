@@ -15,9 +15,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
@@ -112,28 +109,6 @@ public class Transformer
         return transform(source, params);
     }    
     
-    public TransformationResult transform(Document original) throws TransformationException
-    {
-        return transform(original, null);
-    }
-
-    public TransformationResult transform(Document original, Map<String, String> params) throws TransformationException
-    {
-        // TODO: Look into using XMLOutputter.output() with streams instead of a String, for better performance
-        return transform(new XMLOutputter().outputString(original), params);
-    }
-    
-    public TransformationResult transform(Element original) throws TransformationException
-    {
-        return transform(original, null);
-    }
-
-    public TransformationResult transform(Element original, Map<String, String> params) throws TransformationException
-    {
-        // TODO: Look into using XMLOutputter.output() with streams instead of a String, for better performance
-        return transform(new XMLOutputter().outputString(original), params);
-    }    
-
     protected javax.xml.transform.Transformer getTransformer() throws PoolException
     {
         return transformerPool.checkOut();

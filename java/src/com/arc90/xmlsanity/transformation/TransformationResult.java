@@ -7,10 +7,6 @@ import java.io.StringWriter;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-
 public class TransformationResult
 {
 
@@ -68,23 +64,6 @@ public class TransformationResult
             // will return an empty string if there's no error
             return error.getMessageAndLocation();
         }
-    }
-
-    /**
-     * 
-     * @return If output exists, a JDOM Document of that output. Otherwise,
-     *         null.
-     * @throws JDOMException
-     * @throws IOException
-     */
-    public Document toDocument() throws JDOMException, IOException
-    {
-        if (!outputExists())
-        {
-            return null;
-        }
-
-        return new SAXBuilder().build(new StringReader(this.toString()));
     }
 
     protected StreamResult getStreamResult()
