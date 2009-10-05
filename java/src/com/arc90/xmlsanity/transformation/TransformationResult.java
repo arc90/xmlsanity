@@ -1,7 +1,5 @@
 package com.arc90.xmlsanity.transformation;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.transform.TransformerException;

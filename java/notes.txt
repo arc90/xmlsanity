@@ -4,7 +4,6 @@ XML SANITY 1.0
 TO DO
 -----------------
 
--- Validation: Add Schematron support
 -- Validation: Support Resource Resolution
 -- Transformation: Support Resource Resolution
 -- Tests: Have unit tests
@@ -55,6 +54,7 @@ Testing
 
 FOR LATER VERSIONS
 
+-- Validation: Add Schematron support
 -- maybe add Validator(Channel) and Transformer(Channel)
 
 ValidationResult

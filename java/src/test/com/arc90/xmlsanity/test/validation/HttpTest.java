@@ -1,4 +1,4 @@
-package com.arc90.xmlsanity.validation.test;
+package com.arc90.xmlsanity.test.validation;
 
 import java.io.File;
 
