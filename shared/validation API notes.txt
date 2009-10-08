@@ -59,7 +59,7 @@ OPTION B: Use a single class which has multiple "modes"
     validationResults = validator.validate(content)
     
     // Maybe even both
-    validator = new Validator([ValidationTypes.XSD, ValidationTypes.SCHEMATRON], grammarDoc, schmematronDoc)
+    validator = new Validator([ValidationTypes.RELAXNG, ValidationTypes.SCHEMATRON], grammarDoc, schmematronDoc)
     validationResults = validator.validate(content)
 
 
@@ -99,7 +99,7 @@ OPTION C: Hybrid of A + B; use separate specific classes for each type of valida
 
 OPTION D: Use a single class with positional arguments which determine what happens
 
-    // Could also be combined with (A), similar to (C)
+    // Could also be combined with (A), like (C)
 
     // Signature: public Validator(xsdDoc, rngDoc, schematronDoc)
 
