@@ -30,31 +30,10 @@ import com.arc90.xmlsanity.util.PoolException;
  * @author Avi Flax <avif@arc90.com>
  * 
  */
-public class Validator
+abstract class AbstractValidator implements Validator
 {
-    protected final Pool<javax.xml.validation.Validator> validatorPool;
+    protected Pool<javax.xml.validation.Validator> validatorPool;
 
-    public Validator(File schemaFile) throws FileNotFoundException, SAXException
-    {
-        validatorPool = new FileBasedValidatorPool(schemaFile);
-    }
-
-    public Validator(InputStream schemaInputStream) throws SAXException
-    {
-        validatorPool = new StreamBasedValidatorPool(schemaInputStream);
-    }
-
-    @SuppressWarnings("unchecked")
-    public Validator(InputStream schemaInputStream, Class classForResourceResolution) throws SAXException
-    {
-        validatorPool = new StreamBasedValidatorPool(schemaInputStream, classForResourceResolution);
-    }
-    
-    public Validator(InputStream schemaInputStream, String basePathForResourceResolution) throws SAXException
-    {
-        validatorPool = new StreamBasedValidatorPool(schemaInputStream, basePathForResourceResolution);
-    }    
-    
     public ValidationResult validate(File content) throws ValidationException
     {
         try

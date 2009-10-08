@@ -11,14 +11,15 @@ import org.xml.sax.SAXException;
 
 class FileBasedValidatorPool extends ValidatorPool
 {
-    protected final File      schemaFile;
-    protected final Object    schemaLock = new Object();
-    protected volatile Schema schema;
-    protected volatile long   schemaDateTime;
+    protected final File           schemaFile;
+    protected final Object         schemaLock = new Object();
+    protected final ValidationType validationType;
+    protected volatile Schema      schema;
+    protected volatile long        schemaDateTime;
 
-    private final Logger      logger     = Logger.getLogger(FileBasedValidatorPool.class.getName());
+    private final Logger           logger     = Logger.getLogger(FileBasedValidatorPool.class.getName());
 
-    protected FileBasedValidatorPool(File schemaFile) throws SAXException, FileNotFoundException
+    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws SAXException, FileNotFoundException
     {
         if (schemaFile.exists() == false)
         {
@@ -26,6 +27,7 @@ class FileBasedValidatorPool extends ValidatorPool
         }
 
         this.schemaFile = schemaFile;
+        this.validationType = validationType;
 
         // Initialize the schema, which will test that it's valid
         getSchema();
@@ -53,7 +55,7 @@ class FileBasedValidatorPool extends ValidatorPool
                 throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
             }
 
-            schema = getSchemaFactory().newSchema(schemaFile);
+            schema = getSchemaFactory(validationType).newSchema(schemaFile);
             schemaDateTime = schemaFile.lastModified();
         }
     }

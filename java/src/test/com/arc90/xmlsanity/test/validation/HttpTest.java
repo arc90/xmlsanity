@@ -12,7 +12,7 @@ import org.restlet.data.Response;
 import org.restlet.data.Status;
 
 import com.arc90.xmlsanity.validation.ValidationResult;
-import com.arc90.xmlsanity.validation.Validator;
+import com.arc90.xmlsanity.validation.XsdValidator;
 
 public class HttpTest
 {
@@ -23,7 +23,7 @@ public class HttpTest
 	public static void main(String[] args) throws Exception
 	{
 		final File schemaFile = new File(args[0]);
-		final Validator validator = new Validator(schemaFile);
+		final XsdValidator validator = new XsdValidator(schemaFile);
 		
 		Restlet fastValidator = new Restlet()
 		{
@@ -54,7 +54,7 @@ public class HttpTest
 			{
 				try
 				{
-					Validator validator = new Validator(schemaFile);
+					XsdValidator validator = new XsdValidator(schemaFile);
 					ValidationResult validationResult = validator.validate(request.getEntity().getStream());
 					response.setEntity(validationResult.toString(), MediaType.TEXT_PLAIN);
 					

@@ -9,20 +9,16 @@ import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
-import com.arc90.xmlsanity.util.ClassBasedResourceResolver;
 import com.arc90.xmlsanity.util.Pool;
 
 abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {
     protected final Logger        logger = Logger.getLogger(ValidatorPool.class.getName());
 
-    SchemaFactory getSchemaFactory()
+    protected SchemaFactory getSchemaFactory(ValidationType validationType) throws IllegalArgumentException
     {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
         
-        // TODO: figure out how this resource resolver stuff works!
-        //schemaFactory.setResourceResolver(new ResourceResolver());
-
         try
         {
             // TODO: I'm not sure if this is the complete set that's needed -- TESTING NEEDED!
@@ -42,16 +38,8 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
         return schemaFactory;
     }
     
-    @SuppressWarnings("unchecked")
-    SchemaFactory getSchemaFactory(Class classForResourceResolution) {
-        SchemaFactory factory = getSchemaFactory();
-        factory.setResourceResolver(new ClassBasedResourceResolver(classForResourceResolution));
-        return factory;
-    }
-    
     void prepValidator(javax.xml.validation.Validator validator)
     {
-        validator.setResourceResolver(new ResourceResolver());
 
         try
         {
