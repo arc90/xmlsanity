@@ -111,9 +111,39 @@ OPTION D: Use a single class with positional arguments which determine what happ
     validator = new Validator(null, null, schematronDoc)
     validationResults = validator.validate(content)
 
-    // Maybe even both — or all three!
-    validator = new Validator(xsdDoc, rngDoc, schmematronDoc)
+    // Maybe even both
+    validator = new Validator(xsdDoc, null, schmematronDoc)
+    validationResults = validator.validate(content)
+
+    // Maybe even both
+    validator = new Validator(null, rngDoc, schmematronDoc)
     validationResults = validator.validate(content)
 
 
 --------------------
+
+
+OPTION E: Specific classes for specific types of validation, AND a single class with positional arguments
+
+
+    // XSD validation
+    xsdValidator = new XsdValidator(xsd)
+    xsdValidationResults = xsdValidator.validate(content)
+    if (xsdValidationResults.isInvalid()) throw new WhateverException()
+                 
+    // Schematron validation
+    schematronValidator = new SchematronValidator(schematronDoc)
+    schematronValidationResults = schematronValidator.validate(content)
+    if (schematronValidationResults.isInvalid()) throw new WhateverException()
+
+    // RELAX validation... you get the idea
+    
+    // Multiple Validation
+    
+    // XSD and Schematron
+    validator = new Validator(xsdDoc, null, schmematronDoc)
+    validationResults = validator.validate(content)
+
+    // RNG and Schematron
+    validator = new Validator(null, rngDoc, schmematronDoc)
+    validationResults = validator.validate(content)
