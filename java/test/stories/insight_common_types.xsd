@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	~~~ This document is ©2009 Insight Catastrophe Group.  ~~~
+	~~~ ALL RIGHTS RESERVED. DO NOT DISTRIBUTE WITHOUT WRITTEN AUTHORIZATION. ~~~
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0">
+	
+	<xs:complexType name="SimpleNameValuePair">
+		<xs:attribute name="name" use="required">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:minLength value="1"/>
+					<xs:whiteSpace value="collapse"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:anySimpleType" use="required"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="NonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="SimpleDataItem">
+		<xs:attribute name="name" use="required" type="NonEmptyString"/>
+		<xs:attribute name="value" use="required" type="xs:anySimpleType"/>
+		<xs:attribute name="type" use="optional" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="SimpleDataItemContainer">
+		<xs:sequence>
+			<xs:element name="DataItem" type="SimpleDataItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="NestedDataItem">
+		<xs:annotation>
+			<xs:documentation> A Nested DataItem will have EITHER a "value" attribute OR child DataItems. </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DataItem" type="NestedDataItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="name" use="required" type="NonEmptyString"/>
+		<xs:attribute name="value" use="optional" type="xs:anySimpleType"/>
+		<xs:attribute name="type" use="optional" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="NestedDataItemContainer">
+		<xs:sequence>
+			<xs:element name="DataItem" type="NestedDataItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Flag">
+		<xs:attribute name="name" use="required" type="NonEmptyString"/>
+		<xs:attribute name="value" type="xs:boolean" use="required"/>
+		<xs:attribute name="message" type="xs:string" use="optional"/>
+	</xs:complexType>
+	
+</xs:schema>

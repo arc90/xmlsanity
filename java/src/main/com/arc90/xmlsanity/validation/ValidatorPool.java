@@ -9,6 +9,7 @@ import javax.xml.validation.SchemaFactory;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
+import com.arc90.xmlsanity.util.ClassBasedResourceResolver;
 import com.arc90.xmlsanity.util.Pool;
 
 abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
@@ -39,6 +40,13 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
         }
         
         return schemaFactory;
+    }
+    
+    @SuppressWarnings("unchecked")
+    SchemaFactory getSchemaFactory(Class classForResourceResolution) {
+        SchemaFactory factory = getSchemaFactory();
+        factory.setResourceResolver(new ClassBasedResourceResolver(classForResourceResolution));
+        return factory;
     }
     
     void prepValidator(javax.xml.validation.Validator validator)

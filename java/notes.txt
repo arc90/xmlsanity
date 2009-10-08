@@ -5,6 +5,7 @@ TO DO
 -----------------
 
 -- Validation: Support Resource Resolution
+-- Validation: Support RELAX validation
 -- Transformation: Support Resource Resolution
 -- Tests: Have unit tests
 -- Documentation: improve javadocs

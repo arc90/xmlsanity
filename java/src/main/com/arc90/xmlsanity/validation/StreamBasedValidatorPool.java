@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.xml.sax.SAXException;
@@ -16,13 +17,22 @@ class StreamBasedValidatorPool extends ValidatorPool
 
     protected StreamBasedValidatorPool(InputStream inputStream) throws SAXException
     {
-        this(inputStream, null);
+        this.schema = getSchemaFactory().newSchema(new StreamSource(inputStream)); 
     }
 
-    protected StreamBasedValidatorPool(InputStream inputStream, String baseURI) throws SAXException
+    protected StreamBasedValidatorPool(InputStream inputStream, String basePathForResourceResolution) throws SAXException
     {
+        SchemaFactory factory = getSchemaFactory();
+        //factory.setResourceResolver(new ResourceResolver(basePathForResourceResolution));
         this.schema = getSchemaFactory().newSchema(new StreamSource(inputStream));
     }
+    
+    @SuppressWarnings("unchecked")
+    protected StreamBasedValidatorPool(InputStream inputStream, Class classForResourceResolution) throws SAXException
+    {
+        this.schema = getSchemaFactory(classForResourceResolution).newSchema(new StreamSource(inputStream));
+    }    
+    
 
     @Override
     protected Validator create()

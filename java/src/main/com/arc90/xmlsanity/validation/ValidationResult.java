@@ -26,6 +26,12 @@ public class ValidationResult {
 	 * @return String containing an HTML ordered list.
 	 */
 	public String getErrorsAsHtmlList(String classValue) {
+	    
+	    if (errors.size() == 0)
+	    {
+	        return "";
+	    }
+	    
 		StringBuilder sb = new StringBuilder();
 
 		if (classValue != null) {

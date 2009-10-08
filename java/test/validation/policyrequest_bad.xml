@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PolicyRequest schemaVersion="2.1">
-	<UserName>tim@arc90.com</UserName>
+	<Userame>tim@arc90.com</Userame>
 	<LocationId>ARC90</LocationId>
 	<SubmitTimestamp>2009-08-12T11:18:32.038-04:00</SubmitTimestamp>
 	<PolicyState>ACTIVEPOLICY</PolicyState>
-	<ProducerCode>tim@arc90.com</ProducerCode>
+	<ProducerCode></ProducerCode>
 	<UserAgent>pxClient 3.5.0.9; WIN 10,0,22,87; ActiveX; Windows XP</UserAgent>
 	<BaseCriteria>
 		<BaseCriterion name="Carrier" value="Occidental Fire and Casualty Co of NC"/>

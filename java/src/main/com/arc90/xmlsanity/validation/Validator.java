@@ -44,6 +44,17 @@ public class Validator
         validatorPool = new StreamBasedValidatorPool(schemaInputStream);
     }
 
+    @SuppressWarnings("unchecked")
+    public Validator(InputStream schemaInputStream, Class classForResourceResolution) throws SAXException
+    {
+        validatorPool = new StreamBasedValidatorPool(schemaInputStream, classForResourceResolution);
+    }
+    
+    public Validator(InputStream schemaInputStream, String basePathForResourceResolution) throws SAXException
+    {
+        validatorPool = new StreamBasedValidatorPool(schemaInputStream, basePathForResourceResolution);
+    }    
+    
     public ValidationResult validate(File content) throws ValidationException
     {
         try
