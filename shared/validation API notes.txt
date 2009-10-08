@@ -1,0 +1,119 @@
+THE VARIOUS POSSIBLE APPROACHES
+TO EASILY VALIDATING USING MULTIPLE TECHNOLOGIES
+------------------------------------------------------------------
+
+Background:
+
+  -- XmlSanity will support 3 types of validation: 
+    -- XSD
+    -- RELAX
+    -- Schematron
+
+  -- We want the API to be as simple as possible
+    
+  -- We may want to enable validating against Schematron and either XSD or RELAX at the same time
+  
+  -- We may want to enable validating using an XSD or RNG file with embedded Schematron rules
+    -- And we may want to enable letting the user choose which mode to use
+    
+
+--------------------
+
+Possibly relevant: http://www.xfront.com/schematron/Embedded-vs-Separate.html
+
+  -- recommends keeping schematron and "grammar" schemas in separate files
+    -- still, should XmlSanity enforce that? AKA be "opinionated"? Or should it be "neutral" AKA flexible?
+
+--------------------
+
+OPTIONS
+
+--------------------
+
+
+OPTION A: Grammar validation & rule validation use completely separate classes
+
+    // XSD validation
+    xsdValidator = new XsdValidator(xsd)
+    xsdValidationResults = xsdValidator.validate(content)
+    if (xsdValidationResults.isInvalid()) throw new WhateverException()
+                     
+    // Schematron validation
+    schematronValidator = new SchematronValidator(schematronDoc)
+    schematronValidationResults = schematronValidator.validate(content)
+    if (schematronValidationResults.isInvalid()) throw new WhateverException()
+
+    // RELAX validation... you get the idea
+
+--------------------
+
+    
+OPTION B: Use a single class which has multiple "modes"
+                                           
+    // XSD validation
+    validator = new Validator(ValidationTypes.XSD, xsd)
+    validationResults = validator.validate(content)
+    
+    // Schematron validation
+    validator = new Validator(ValidationTypes.SCHEMATRON, schmematronDoc)
+    validationResults = validator.validate(content)
+    
+    // Maybe even both
+    validator = new Validator([ValidationTypes.XSD, ValidationTypes.SCHEMATRON], grammarDoc, schmematronDoc)
+    validationResults = validator.validate(content)
+
+
+--------------------
+
+OPTION C: Hybrid of A + B; use separate specific classes for each type of validation OR a single class with multiple modes
+  
+    // This is the current approach in the .NET version
+
+
+    // I only care about XSD validation
+    xsdValidator = new XsdValidator(xsd)
+    xsdValidationResults = xsdValidator.validate(content)
+    if (xsdValidationResults.isInvalid()) throw new WhateverException()
+
+
+    // I only care about Schematron validation
+    schematronValidator = new SchematronValidator(schematronDoc)
+    schematronValidationResults = schematronValidator.validate(content)
+    if (schematronValidationResults.isInvalid()) throw new WhateverException()    
+
+
+    // I care about both and/or I like abstractions
+
+    validator = new Validator(ValidationTypes.XSD, xsd)
+    validationResults = validator.validate(content)
+    
+    validator = new Validator(ValidationTypes.SCHEMATRON, schmematronDoc)
+    validationResults = validator.validate(content)
+    
+    validator = new Validator([ValidationTypes.XSD, ValidationTypes.SCHEMATRON], grammarDoc, schmematronDoc)
+    validationResults = validator.validate(content)    
+    
+    
+--------------------
+
+
+OPTION D: Use a single class with positional arguments which determine what happens
+
+    // Could also be combined with (A), similar to (C)
+
+    // Signature: public Validator(xsdDoc, rngDoc, schematronDoc)
+
+    // XSD validation
+    validator = new Validator(xsdDoc, null, null)         // maybe we'd also have Validator(xsdDoc) for convenience
+    validationResults = validator.validate(content)
+
+    // Schematron validation
+    validator = new Validator(null, null, schematronDoc)
+    validationResults = validator.validate(content)
+
+    // Maybe even both — or all three!
+    validator = new Validator(xsdDoc, rngDoc, schmematronDoc)
+    validationResults = validator.validate(content)
+
+
+--------------------
