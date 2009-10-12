@@ -3,7 +3,6 @@ package com.arc90.xmlsanity.validation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.XMLConstants;
 import javax.xml.validation.SchemaFactory;
 
 import org.xml.sax.SAXNotRecognizedException;
@@ -15,9 +14,19 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {
     protected final Logger        logger = Logger.getLogger(ValidatorPool.class.getName());
 
-    protected SchemaFactory getSchemaFactory(ValidationType validationType) throws IllegalArgumentException
+    protected SchemaFactory getSchemaFactory(ValidationType validationType) throws ValidationTypeUnsupportedException
     {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
+        SchemaFactory schemaFactory;
+        
+        try
+        {
+            schemaFactory = SchemaFactory.newInstance(validationType.getSchemaLanguage());
+        }
+        catch (IllegalArgumentException e)
+        {
+            String message = "The validation type " + validationType.getName() + " is not supported by this system. No matching SchemaFactory could be located on the ClassPath.";
+            throw new ValidationTypeUnsupportedException(message);
+        }
         
         try
         {
@@ -58,4 +67,5 @@ abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
             logger.log(Level.FINE, e.getMessage(), e);
         }
     }
+
 }

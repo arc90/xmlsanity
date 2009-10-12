@@ -19,9 +19,24 @@ import org.xml.sax.SAXException;
  */
 public class XsdValidator extends AbstractValidator
 {
-    public XsdValidator(File schemaFile) throws FileNotFoundException, SAXException
+    public XsdValidator(File schemaFile) throws ValidationException, ValidationTypeUnsupportedException
     {
-        validatorPool = new FileBasedValidatorPool(schemaFile, ValidationType.XSD);
+        try
+        {
+            validatorPool = new FileBasedValidatorPool(schemaFile, ValidationType.XSD);
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new ValidationException(e);
+        }
+        catch (FileUnreadableException e)
+        {
+            throw new ValidationException(e);
+        }
+        catch (SAXException e)
+        {
+            throw new ValidationException(e);
+        }
     }
-  
+
 }

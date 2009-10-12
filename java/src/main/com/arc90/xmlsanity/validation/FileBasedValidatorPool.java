@@ -19,12 +19,11 @@ class FileBasedValidatorPool extends ValidatorPool
 
     private final Logger           logger     = Logger.getLogger(FileBasedValidatorPool.class.getName());
 
-    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws SAXException, FileNotFoundException
+    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws ValidationTypeUnsupportedException, SAXException, FileNotFoundException, FileUnreadableException
     {
-        if (schemaFile.exists() == false)
-        {
-            throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
-        }
+        checkFile(schemaFile);
+        
+        // Ensure that we can perform the specified type of validation
 
         this.schemaFile = schemaFile;
         this.validationType = validationType;
@@ -33,7 +32,7 @@ class FileBasedValidatorPool extends ValidatorPool
         getSchema();
     }
 
-    protected Schema getSchema() throws FileNotFoundException, SAXException
+    protected Schema getSchema() throws FileNotFoundException, SAXException, FileUnreadableException, ValidationTypeUnsupportedException
     {
         synchronized (schemaLock)
         {
@@ -46,15 +45,12 @@ class FileBasedValidatorPool extends ValidatorPool
         }
     }
 
-    protected void updateSchema() throws FileNotFoundException, SAXException
+    protected void updateSchema() throws FileNotFoundException, SAXException, ValidationTypeUnsupportedException, FileUnreadableException
     {
         synchronized (schemaLock)
         {
-            if (schemaFile.exists() == false)
-            {
-                throw new FileNotFoundException("The file " + schemaFile.getAbsolutePath() + " does not exist.");
-            }
-
+            checkFile(schemaFile);
+            
             schema = getSchemaFactory(validationType).newSchema(schemaFile);
             schemaDateTime = schemaFile.lastModified();
         }
@@ -80,4 +76,14 @@ class FileBasedValidatorPool extends ValidatorPool
         return getTimeCreated(o) > schemaDateTime;
     }
 
+    public static void checkFile(File file) throws FileNotFoundException, FileUnreadableException
+    {
+        if (file.exists() == false)
+        {
+            throw new FileNotFoundException("The file " + file.getAbsolutePath() + " does not exist.");
+        }
+        
+        // TODO: check for readability
+    }
+    
 }

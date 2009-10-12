@@ -32,6 +32,7 @@ import com.arc90.xmlsanity.util.PoolException;
  */
 abstract class AbstractValidator implements Validator
 {
+    // I'd prefer for this to be final, but that doesn't seem possible, because subclasses must be able to set it
     protected Pool<javax.xml.validation.Validator> validatorPool;
 
     public ValidationResult validate(File content) throws ValidationException
