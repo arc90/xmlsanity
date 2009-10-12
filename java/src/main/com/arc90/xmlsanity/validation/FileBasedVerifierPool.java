@@ -2,38 +2,39 @@ package com.arc90.xmlsanity.validation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.validation.Schema;
-
+import org.iso_relax.verifier.Schema;
+import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.VerifierFactory;
 import org.xml.sax.SAXException;
 
+import com.arc90.xmlsanity.util.Pool;
 
-class FileBasedValidatorPool extends ValidatorPool
+class FileBasedVerifierPool extends Pool<Verifier>
 {
-    protected final File           schemaFile;
-    protected final Object         schemaLock = new Object();
-    protected final ValidationType validationType;
-    protected volatile Schema      schema;
-    protected volatile long        schemaDateTime;
+    protected final File            schemaFile;
+    protected final Object          schemaLock      = new Object();
+    protected volatile Schema       schema;
+    protected volatile long         schemaDateTime;
+    protected final VerifierFactory verifierFactory = new com.sun.msv.verifier.jarv.TheFactoryImpl();
 
-    private final Logger           logger     = Logger.getLogger(FileBasedValidatorPool.class.getName());
+    private final Logger            logger          = Logger.getLogger(FileBasedVerifierPool.class.getName());
 
-    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws ValidationTypeUnsupportedException, SAXException, FileNotFoundException, FileUnreadableException
+    protected FileBasedVerifierPool(File schemaFile) throws SAXException, VerifierConfigurationException, IOException
     {
         checkFile(schemaFile);
-        
-        // Ensure that we can perform the specified type of validation
 
         this.schemaFile = schemaFile;
-        this.validationType = validationType;
 
         // Initialize the schema, which will test that it's valid
         getSchema();
     }
 
-    protected Schema getSchema() throws FileNotFoundException, SAXException, FileUnreadableException, ValidationTypeUnsupportedException
+    protected Schema getSchema() throws SAXException, VerifierConfigurationException, IOException
     {
         synchronized (schemaLock)
         {
@@ -46,23 +47,23 @@ class FileBasedValidatorPool extends ValidatorPool
         }
     }
 
-    protected void updateSchema() throws FileNotFoundException, SAXException, ValidationTypeUnsupportedException, FileUnreadableException
+    protected void updateSchema() throws VerifierConfigurationException, IOException, SAXException
     {
         synchronized (schemaLock)
         {
             checkFile(schemaFile);
-            
-            schema = getSchemaFactory(validationType).newSchema(schemaFile);
+
+            schema = verifierFactory.compileSchema(schemaFile);
             schemaDateTime = schemaFile.lastModified();
         }
     }
 
     @Override
-    protected javax.xml.validation.Validator create()
+    protected Verifier create()
     {
         try
         {
-            return getSchema().newValidator();
+            return getSchema().newVerifier();
         }
         catch (Exception e)
         {
@@ -72,7 +73,7 @@ class FileBasedValidatorPool extends ValidatorPool
     }
 
     @Override
-    public boolean validate(javax.xml.validation.Validator o)
+    public boolean validate(Verifier o)
     {
         return getTimeCreated(o) > schemaDateTime;
     }
@@ -83,8 +84,8 @@ class FileBasedValidatorPool extends ValidatorPool
         {
             throw new FileNotFoundException("The file " + file.getAbsolutePath() + " does not exist.");
         }
-        
+
         // TODO: check for readability
     }
-    
+
 }

@@ -19,11 +19,11 @@ public final class FileBasedRng
     @Test
     public void valid_documents_pass_validation() throws FileNotFoundException, SAXException, ValidationException
     {
-        File rngFile = new File("test/resources/schemata/wadl20061109.rnc");
+        File rngFile = new File("test/resources/schemata/wadl20061109.rng");
         
         Validator validator = new RngValidator(rngFile);
         
-        File xmlFile = new File("test/resources/wadl_good.xml");
+        File xmlFile = new File("test/resources/test_docs/wadl_good.xml");
         
         ValidationResult results = validator.validate(xmlFile);
         
