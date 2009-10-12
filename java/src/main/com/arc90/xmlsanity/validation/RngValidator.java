@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
  * @author Avi Flax <avif@arc90.com>
  * 
  */
-public class RngValidator extends AbstractValidator
+public class RngValidator extends JaxpValidator
 {
     public RngValidator(File schemaFile) throws ValidationException, ValidationTypeUnsupportedException
     {

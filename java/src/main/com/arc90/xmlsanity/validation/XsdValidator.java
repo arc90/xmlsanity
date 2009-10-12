@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
  * @author Avi Flax <avif@arc90.com>
  * 
  */
-public class XsdValidator extends AbstractValidator
+public class XsdValidator extends JaxpValidator
 {
     public XsdValidator(File schemaFile) throws ValidationException, ValidationTypeUnsupportedException
     {
