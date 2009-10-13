@@ -14,6 +14,11 @@ import org.w3c.dom.Node;
  */
 public class MultiValidator implements com.arc90.xmlsanity.validation.Validator
 {
+    
+    public MultiValidator(File xsdFile, File rngFile, File schematronFile) throws ValidationException
+    {
+        throw new ValidationException("Not implemented yet!");
+    }
 
     /*
      * (non-Javadoc)

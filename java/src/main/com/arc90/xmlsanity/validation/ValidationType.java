@@ -2,7 +2,7 @@ package com.arc90.xmlsanity.validation;
 
 import javax.xml.XMLConstants;
 
-public class ValidationType
+class ValidationType
 {
     public final static ValidationType XSD = new ValidationType("XSD", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     

@@ -7,7 +7,7 @@ package com.arc90.xmlsanity.validation;
  * @author avi
  *
  */
-class ValidationTypeUnsupportedException extends ValidationException
+public class ValidationTypeUnsupportedException extends ValidationException
 {
 
     /**
@@ -16,17 +16,9 @@ class ValidationTypeUnsupportedException extends ValidationException
     private static final long serialVersionUID = 5863237048070498222L;
 
     /**
-     * 
-     */
-    public ValidationTypeUnsupportedException()
-    {
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
      * @param message
      */
-    public ValidationTypeUnsupportedException(String message)
+    protected ValidationTypeUnsupportedException(String message)
     {
         super(message);
     }
@@ -34,7 +26,7 @@ class ValidationTypeUnsupportedException extends ValidationException
     /**
      * @param cause
      */
-    public ValidationTypeUnsupportedException(Throwable cause)
+    protected ValidationTypeUnsupportedException(Throwable cause)
     {
         super(cause);
     }
@@ -43,7 +35,7 @@ class ValidationTypeUnsupportedException extends ValidationException
      * @param message
      * @param cause
      */
-    public ValidationTypeUnsupportedException(String message, Throwable cause)
+    protected ValidationTypeUnsupportedException(String message, Throwable cause)
     {
         super(message, cause);
     }
