@@ -16,6 +16,9 @@ public abstract class Pool<T>
 
     private final Map<T, Long> in                         = new ConcurrentHashMap<T, Long>();
     private final Map<T, Long> out                        = new ConcurrentHashMap<T, Long>();
+    
+    // Used by getTimeCreated() 
+    private final Map<T, Long> all                        = new ConcurrentHashMap<T, Long>();
 
     /**
      * Constructor which uses the default expiration time of 5 minutes.
@@ -86,6 +89,7 @@ public abstract class Pool<T>
 
         // no objects available, create a new one
         t = create();
+        all.put(t, now);
         out.put(t, now);
         return (t);
     }
@@ -120,6 +124,6 @@ public abstract class Pool<T>
      */
     public long getTimeCreated(T o)
     {
-        return out.get(o);
+        return all.get(o);
     }
 }
