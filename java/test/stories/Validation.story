@@ -89,6 +89,38 @@ scenario "An XsdValidator should be reusable", {
 
 }
 
+scenario "A malformed XML document should fail validation", {
+
+    given "an XSD file", {
+        xsdFile = new File("test/resources/schemata/insight_policyrequest_2.1.xsd")
+    }
+    
+    given "a Validator", {
+        validator = new XsdValidator(xsdFile)
+    }
+    
+    and "a malformed XML document", {
+        xmlFile = new File("test/resources/test_docs/malformed.xml")
+    }
+    
+    when "validation is called", {
+        results = validator.validate(xmlFile)
+    }
+    
+    then "results should be invalid", {
+        assert results != null
+        results.isInvalid().shouldBe true
+        results.isValid().shouldBe false
+    }
+    
+    and "results should contain errors", {
+        assert results.errors != null
+        results.errors.size().shouldBeGreaterThan 0
+        results.errorsAsHtmlList.length().shouldBeGreaterThan 0
+    }
+    
+}
+
 scenario "Using a RngValidator and a RNG file, a valid document should pass validation", {
 
     given "a RNG file", {
