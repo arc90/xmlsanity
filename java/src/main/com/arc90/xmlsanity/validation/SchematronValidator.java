@@ -3,11 +3,13 @@
  */
 package com.arc90.xmlsanity.validation;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -30,7 +32,7 @@ public class SchematronValidator implements Validator
     {
         try
         {
-            Transformer step1Transformer = new Transformer(getClass().getResourceAsStream("iso-schematron-xslt2/iso_dsdl_include.xsl"));
+            Transformer step1Transformer = new Transformer(new File("iso-schematron-xslt2/iso_dsdl_include.xsl"));
             TransformationResult step1Result = step1Transformer.transform(schematronFile);
             
             if (step1Result.errorExists())
@@ -42,7 +44,7 @@ public class SchematronValidator implements Validator
                 throw new ValidationException("A problem occurred while compiling the Schematron schema: step 1 returned no output.");
             }
             
-            Transformer step2Transformer = new Transformer(getClass().getResourceAsStream("iso-schematron-xslt2/iso_abstract_expand.xsl"));
+            Transformer step2Transformer = new Transformer(new File("iso-schematron-xslt2/iso_abstract_expand.xsl"));
             TransformationResult step2Result = step2Transformer.transform(step1Result.toString());
             
             if (step2Result.errorExists())
@@ -54,7 +56,10 @@ public class SchematronValidator implements Validator
                 throw new ValidationException("A problem occurred while compiling the Schematron schema: step 2 returned no output.");
             }
             
-            Transformer step3Transformer = new Transformer(getClass().getResourceAsStream("iso-schematron-xslt2/iso_svrl_for_xslt2.xsl"));
+            Map<String,String> step3Params = new HashMap<String,String>();
+            step3Params.put("output-encoding", "UTF-8");
+            
+            Transformer step3Transformer = new Transformer(new File("iso-schematron-xslt2/iso_svrl_for_xslt2.xsl"), step3Params);
             TransformationResult step3Result = step3Transformer.transform(step2Result.toString());
             
             if (step3Result.errorExists())
@@ -66,8 +71,23 @@ public class SchematronValidator implements Validator
                 throw new ValidationException("A problem occurred while compiling the Schematron schema: step 3 returned no output.");
             }
             
+            try
+            {
+                File debugFile = new File("debug.xsl");
+                FileWriter fw = new FileWriter(debugFile);
+                fw.write(step3Result.toString());
+                fw.close();
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            
             // The result of Step 3 is the XSLT document which is used to actually validate actual documents 
-            this.schematronTransformer = new Transformer(new ByteArrayInputStream(step3Result.toString().getBytes("UTF-8")));
+//            this.schematronTransformer = new Transformer(step3Result.toString());
+            
+this.schematronTransformer = new Transformer(new File("debug.xsl"));
         }
         catch (FileNotFoundException e)
         {
@@ -82,10 +102,6 @@ public class SchematronValidator implements Validator
             throw new ValidationException(e);
         }
         catch (TransformationException e)
-        {
-            throw new ValidationException(e);
-        }
-        catch (UnsupportedEncodingException e)
         {
             throw new ValidationException(e);
         }

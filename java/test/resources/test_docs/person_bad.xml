@@ -1,0 +1,41 @@
+﻿<Person>
+  <Name>
+    <First>George</First>
+    <Middle></Middle>
+    <Last>Washington</Last>
+  </Name>
+  <Dates>
+    <Born>1732-02-22</Born>
+    <Died>1702-12-14</Died>    
+  </Dates>
+  <Schooling>
+    <School type="kindergarten">
+      <Name>home-schooled</Name>
+      <Dates>
+        <Start>1737-09-01</Start>
+        <End>1738-06-30</End>
+      </Dates>
+    </School>
+    <School type="elementary">
+      <Name>King George I Elementary</Name>
+      <Dates>
+        <Start>1738-09-01</Start>
+        <End>1743-06-30</End>
+      </Dates>
+    </School>
+    <School type="middle">
+      <Name>King George II Middle School</Name>
+      <Dates>
+        <Start>1743-09-02</Start>
+        <End>1746-06-18</End>
+      </Dates>
+    </School>
+    <School type="high">
+      <Name>Colony High</Name>
+      <Dates>
+        <Start>1746-09-01</Start>
+        <End>1750-06-15</End>
+      </Dates>
+    </School>
+  </Schooling>
+</Person>

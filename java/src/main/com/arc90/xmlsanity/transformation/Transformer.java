@@ -67,8 +67,25 @@ public class Transformer
         }
 
         this.defaultParams = defaultParams;
+    }
+    
+    public Transformer(String xsltString) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+    {
+        this(xsltString, null);
     }    
     
+    public Transformer(String xsltString, Map<String, String> defaultParams) throws FileNotFoundException, TransformerConfigurationException, TransformerFactoryConfigurationError
+    {
+        transformerPool = new StreamBasedTransformerPool(xsltString);
+
+        if (defaultParams == null)
+        {
+            defaultParams = new HashMap<String, String>();
+        }
+
+        this.defaultParams = defaultParams;
+    }    
+        
     public TransformationResult transform(File original) throws TransformationException
     {
         return transform(original, null);

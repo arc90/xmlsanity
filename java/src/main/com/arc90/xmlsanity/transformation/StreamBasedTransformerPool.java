@@ -1,6 +1,7 @@
 package com.arc90.xmlsanity.transformation;
 
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,9 +18,14 @@ class StreamBasedTransformerPool extends TransformerPool
     protected final Logger    logger = Logger.getLogger(StreamBasedTransformerPool.class.getName());
     protected final Templates templates;
 
-    public StreamBasedTransformerPool(InputStream inputStream) throws TransformerConfigurationException, TransformerFactoryConfigurationError
+    public StreamBasedTransformerPool(InputStream xsltStream) throws TransformerConfigurationException, TransformerFactoryConfigurationError
     {
-        templates = getTransformerFactory().newTemplates(new StreamSource(inputStream));
+        templates = getTransformerFactory().newTemplates(new StreamSource(xsltStream));
+    }
+    
+    public StreamBasedTransformerPool(String xsltString) throws TransformerConfigurationException
+    {
+        templates = getTransformerFactory().newTemplates(new StreamSource(new StringReader(xsltString)));
     }
 
     @Override

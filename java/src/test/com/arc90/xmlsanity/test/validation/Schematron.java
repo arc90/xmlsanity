@@ -19,11 +19,11 @@ public final class Schematron
     @Test
     public void valid_documents_pass_validation() throws FileNotFoundException, SAXException, ValidationException
     {
-        File schematronFile = new File("test/resources/schemata/person.schematron");
+        File schematronFile = new File("test/resources/schemata/person.sch");
         
         Validator validator = new SchematronValidator(schematronFile);
         
-        File xmlFile = new File("test/resources/test_docs/person.xml");
+        File xmlFile = new File("test/resources/test_docs/person_good.xml");
         
         ValidationResult results = validator.validate(xmlFile);
         
