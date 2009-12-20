@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://research.sun.com/wadl/2006/10" xmlns:wadl="http://research.sun.com/wadl/2006/10">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"/>
+  <xs:element name="application">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" ref="wadl:grammars"/>
+        <xs:element minOccurs="0" ref="wadl:resources"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="wadl:resource_type"/>
+          <xs:element ref="wadl:method"/>
+          <xs:element ref="wadl:representation"/>
+          <xs:element ref="wadl:fault"/>
+        </xs:choice>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="doc">
+    <xs:complexType mixed="true">
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="wadl:foreign-element"/>
+      <xs:attribute ref="xml:lang"/>
+      <xs:attribute name="title"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="grammars">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:include"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="include">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+      </xs:sequence>
+      <xs:attribute name="href" use="required" type="xs:anyURI"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resources">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element maxOccurs="unbounded" ref="wadl:resource"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="base" use="required" type="xs:anyURI"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resource_type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:param"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:method"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:token"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:param"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="wadl:method"/>
+          <xs:element ref="wadl:resource"/>
+        </xs:choice>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="type">
+        <xs:simpleType>
+          <xs:restriction>
+            <xs:simpleType>
+              <xs:list itemType="xs:anyURI"/>
+            </xs:simpleType>
+            <xs:length value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="path"/>
+      <xs:attribute name="id" type="xs:token"/>
+      <xs:attribute name="queryType"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="method">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:sequence minOccurs="0">
+          <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+          <xs:element minOccurs="0" ref="wadl:request"/>
+          <xs:element minOccurs="0" ref="wadl:response"/>
+        </xs:sequence>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="href" type="xs:anyURI"/>
+      <xs:attribute name="id" type="xs:token"/>
+      <xs:attribute name="name">
+        <xs:simpleType>
+          <xs:union memberTypes="xs:token">
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="DELETE"/>
+              </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="GET"/>
+              </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="HEAD"/>
+              </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="POST"/>
+              </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="PUT"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:union>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="request">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:param"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:representation"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:param"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="wadl:representation"/>
+          <xs:element ref="wadl:fault"/>
+        </xs:choice>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="representation_type">
+    <xs:sequence minOccurs="0">
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:param"/>
+    </xs:sequence>
+    <xs:attribute name="href" type="xs:anyURI"/>
+    <xs:attribute name="id" type="xs:token"/>
+    <xs:attribute name="element" type="xs:QName"/>
+    <xs:attribute name="mediaType"/>
+    <xs:attribute name="profile">
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:anyURI"/>
+          </xs:simpleType>
+          <xs:length value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="status">
+      <xs:simpleType>
+        <xs:restriction>
+          <xs:simpleType>
+            <xs:list itemType="xs:int"/>
+          </xs:simpleType>
+          <xs:minLength value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="representation">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="wadl:representation_type">
+          <xs:group ref="wadl:foreign-element"/>
+          <xs:attributeGroup ref="wadl:foreign-attribute"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fault">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="wadl:representation_type">
+          <xs:group ref="wadl:foreign-element"/>
+          <xs:attributeGroup ref="wadl:foreign-attribute"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="param">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:option"/>
+        <xs:element minOccurs="0" ref="wadl:link"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:token"/>
+      <xs:attribute name="style" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="plain"/>
+            <xs:enumeration value="query"/>
+            <xs:enumeration value="matrix"/>
+            <xs:enumeration value="header"/>
+            <xs:enumeration value="template"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="id" type="xs:token"/>
+      <xs:attribute name="type"/>
+      <xs:attribute name="default"/>
+      <xs:attribute name="path"/>
+      <xs:attribute name="required" type="xs:boolean"/>
+      <xs:attribute name="repeating" type="xs:boolean"/>
+      <xs:attribute name="fixed"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="option">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="value" use="required" type="xs:string"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="link">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wadl:doc"/>
+        <xs:group ref="wadl:foreign-element"/>
+      </xs:sequence>
+      <xs:attribute name="resource_type" type="xs:anyURI"/>
+      <xs:attribute name="rel" type="xs:token"/>
+      <xs:attribute name="rev" type="xs:token"/>
+      <xs:attributeGroup ref="wadl:foreign-attribute"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="foreign-attribute">
+    <xs:anyAttribute processContents="skip"/>
+  </xs:attributeGroup>
+  <xs:group name="foreign-element">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other" processContents="skip"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:group name="any-element">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:simpleType name="languageTag">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z]{1,8}(-[A-Za-z0-9]{1,8})*"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

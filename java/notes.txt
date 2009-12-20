@@ -4,12 +4,19 @@ XML SANITY 1.0
 TO DO
 -----------------
 
--- Validation: Support Resource Resolution
--- Validation: Support RELAX validation
--- Transformation: Support Resource Resolution
--- Tests: Have unit tests
--- Documentation: improve javadocs
--- Documentation: write usage guide
+Validation:
+
+	-- Add Schematron support
+
+Transformation: 
+	-- Support Resource Resolution
+
+Tests:
+	-- Have unit tests
+
+Documentation:
+	-- improve javadocs
+	-- write usage guide
 
 
 -----------------
@@ -24,7 +31,8 @@ Validator
 	-- NEED HELP add setSchemaResolver() and/or accept one in the constructor 
 
 Validation
-	-- Add Schematron support
+
+	-- Validation: Support RELAX validation
 
 Transformation
 	-- DONE Create TransformationException
@@ -45,18 +53,23 @@ TransformationResult
 
 
 Testing
-	-- Hey, how about some unit tests?
-
+	-- Cleanup
+	-- Remove proprietary/confidential test documents
 
 
 
 -----------------------------------------------
 
 
-FOR LATER VERSIONS
+MAYBE FOR LATER VERSIONS
 
--- Validation: Add Schematron support
--- maybe add Validator(Channel) and Transformer(Channel)
+Validation:
+	-- maybe support Resource Resolution
+	-- maybe support NIO Channels
+	-- maybe support Schematron rules embedded in XSDs and RNGs
+
+Transformation:
+	-- maybe support NIO Channels
 
 ValidationResult
   -- maybe add methods to return XHTML JDOM elements and/or documents of errors

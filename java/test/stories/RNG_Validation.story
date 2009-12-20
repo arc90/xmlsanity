@@ -3,7 +3,7 @@ import com.arc90.xmlsanity.validation.*
 scenario "A malformed XML document should fail validation", {
 
     given "an RNG file", {
-        rngFile = new File("test/resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl20061109.rng")
     }
     
     given "a Validator", {
@@ -11,7 +11,7 @@ scenario "A malformed XML document should fail validation", {
     }
     
     and "a malformed XML document", {
-        xmlFile = new File("test/resources/test_docs/wadl_bad.xml")
+        xmlFile = new File("resources/test_docs/wadl_bad.xml")
     }
     
     when "validation is called", {
@@ -35,7 +35,7 @@ scenario "A malformed XML document should fail validation", {
 scenario "Using a RngValidator and a RNG file, a valid document should pass validation", {
 
     given "a RNG file", {
-        rngFile = new File("test/resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl20061109.rng")
     }
 
     and "a Validator", {
@@ -43,7 +43,7 @@ scenario "Using a RngValidator and a RNG file, a valid document should pass vali
     }
 
     and "a valid XML document", {
-        xmlFile = new File("test/resources/test_docs/wadl_good.xml")
+        xmlFile = new File("resources/test_docs/wadl_good.xml")
     }
 
     when "validation is called", {
@@ -67,7 +67,7 @@ scenario "Using a RngValidator and a RNG file, a valid document should pass vali
 scenario "Using a RngValidator and a RNC file, an invalid document should fail validation", {
 
     given "a RNG file", {
-        rngFile = new File("test/resources/schemata/wadl20061109.rnc")
+        rngFile = new File("resources/schemata/wadl20061109.rnc")
     }
 
     and "a Validator", {
@@ -75,7 +75,7 @@ scenario "Using a RngValidator and a RNC file, an invalid document should fail v
     }
 
     and "an invalid XML document", {
-        xmlFile = new File("test/resources/test_docs/wadl_bad.xml")
+        xmlFile = new File("resources/test_docs/wadl_bad.xml")
     }
 
     when "validation is called", {
@@ -99,7 +99,7 @@ scenario "Using a RngValidator and a RNC file, an invalid document should fail v
 scenario "An RngValidator should be reusable", {
 
     given "a RNG file", {
-        rngFile = new File("test/resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl20061109.rng")
     }
 
     and "a Validator", {
@@ -107,7 +107,7 @@ scenario "An RngValidator should be reusable", {
     }
 
     and "an XML document", {
-        xmlFile = new File("test/resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
     }
 
     when "validation is called multiple times", {

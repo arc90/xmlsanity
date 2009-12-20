@@ -6,9 +6,11 @@ import java.util.List;
 public class ValidationResult {
 	private final List<ValidationError> errors = new ArrayList<ValidationError>();
 
+	/**
+	 * Exists to prevent public creation of instances.
+	 */
 	protected ValidationResult()
 	{
-	    super();
 	}
 	
 	public List<ValidationError> getErrors() {
@@ -107,4 +109,8 @@ public class ValidationResult {
 		errors.add(validationError);
 	}
 
+	protected void addErrors(List<ValidationError> errors)
+	{
+	    this.errors.addAll(errors);
+	}
 }

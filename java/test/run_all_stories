@@ -1,0 +1,1 @@
+java -cp '../bin:../lib/jing/*:/Users/avi/Dev/java/easyb-0.9.6/*' org.easyb.BehaviorRunner stories/*.story

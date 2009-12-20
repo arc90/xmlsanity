@@ -3,7 +3,7 @@ import com.arc90.xmlsanity.validation.*
 scenario "Using an SchematronValidator and a Schematron file, a valid document should pass validation", {
 
     given "a Schematron file", {
-        schematronFile = new File("test/resources/schemata/person.sch")
+        schematronFile = new File("resources/schemata/person.sch")
     }
 
     and "a Validator", {
@@ -11,7 +11,7 @@ scenario "Using an SchematronValidator and a Schematron file, a valid document s
     }
 
     and "a valid XML document", {
-        xmlFile = new File("test/resources/test_docs/person_good.xml")
+        xmlFile = new File("resources/test_docs/person_good.xml")
     }
 
     when "validation is called", {
@@ -35,7 +35,7 @@ scenario "Using an SchematronValidator and a Schematron file, a valid document s
 scenario "Using an SchematronValidator and a Schematron file, an invalid document should fail validation", {
 
     given "a Schematron file", {
-        schematronFile = new File("test/resources/schemata/person.sch")
+        schematronFile = new File("resources/schemata/person.sch")
     }
 
     and "a Validator", {
@@ -43,7 +43,7 @@ scenario "Using an SchematronValidator and a Schematron file, an invalid documen
     }
 
     and "an invalid XML document", {
-        xmlFile = new File("test/resources/test_docs/person_bad.xml")
+        xmlFile = new File("resources/test_docs/person_bad.xml")
     }
 
     when "validation is called", {
@@ -67,7 +67,7 @@ scenario "Using an SchematronValidator and a Schematron file, an invalid documen
 scenario "An SchematronValidator should be reusable", {
 
     given "a Schematron file", {
-        schematronFile = new File("test/resources/schemata/person.sch")
+        schematronFile = new File("resources/schemata/person.sch")
     }
 
     and "a Validator", {
@@ -75,7 +75,7 @@ scenario "An SchematronValidator should be reusable", {
     }
 
     and "an XML document", {
-        xmlFile = new File("test/resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
     }
 
     when "validation is called multiple times", {
@@ -92,7 +92,7 @@ scenario "An SchematronValidator should be reusable", {
 scenario "A malformed XML document should fail validation", {
 
     given "a Schematron file", {
-        schematronFile = new File("test/resources/schemata/person.sch")
+        schematronFile = new File("resources/schemata/person.sch")
     }
     
     given "a Validator", {
@@ -100,7 +100,7 @@ scenario "A malformed XML document should fail validation", {
     }
     
     and "a malformed XML document", {
-        xmlFile = new File("test/resources/test_docs/malformed.xml")
+        xmlFile = new File("resources/test_docs/malformed.xml")
     }
     
     when "validation is called", {
@@ -120,3 +120,5 @@ scenario "A malformed XML document should fail validation", {
     }
     
 }
+
+//ignore ["A malformed XML document should fail validation", "Using an SchematronValidator and a Schematron file, an invalid document should fail validation", "Using an SchematronValidator and a Schematron file, a valid document should pass validation"]

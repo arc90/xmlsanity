@@ -1,5 +1,6 @@
 package com.arc90.xmlsanity.validation;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -56,7 +57,7 @@ abstract class JaxpValidator implements Validator
 
     public ValidationResult validate(byte[] content) throws ValidationException
     {
-        return validate(new String(content));
+        return validate(new ByteArrayInputStream(content));
     }
 
     public ValidationResult validate(InputStream content) throws ValidationException

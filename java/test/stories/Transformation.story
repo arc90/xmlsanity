@@ -3,7 +3,7 @@ import com.arc90.xmlsanity.transformation.*
 scenario "an XSLT document in a file, which uses an import statement with a relative path, should successfully compile", {
 
 	given "an XSLT document in a file which uses an import statement with a relative path", {
-		xsltFile = new File("test/resources/xslt/iso_svrl_for_xslt2.xsl")
+		xsltFile = new File("resources/xslt/iso_svrl_for_xslt2.xsl")
 	}
 	
 	when "a Transformer is created from the XSLT file", {
@@ -19,7 +19,7 @@ scenario "an XSLT document in a file, which uses an import statement with a rela
 scenario "an XSLT document in an InputStream, which uses an import statement with a relative path, should successfully compile", {
 
 	given "an XSLT document in an InputStream which uses an import statement with a relative path", {
-		xsltDocStream = new FileInputStream("test/resources/xslt/iso_svrl_for_xslt2.xsl")
+		xsltDocStream = new FileInputStream("resources/xslt/iso_svrl_for_xslt2.xsl")
 	}
 	
 	when "a Transformer is created from the XSLT file", {
