@@ -1,6 +1,7 @@
 package com.arc90.xmlsanity.validation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ValidationResult {
@@ -14,7 +15,7 @@ public class ValidationResult {
 	}
 	
 	public List<ValidationError> getErrors() {
-		return errors;
+		return Collections.unmodifiableList(errors);
 	}
 
 	public String getErrorsAsHtmlList() {
