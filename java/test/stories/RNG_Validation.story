@@ -2,16 +2,16 @@ import com.arc90.xmlsanity.validation.*
 
 scenario "A malformed XML document should fail validation", {
 
-    given "an XSD file", {
-        xsdFile = new File("test/resources/schemata/insight_policyrequest_2.1.xsd")
+    given "an RNG file", {
+        rngFile = new File("test/resources/schemata/wadl20061109.rng")
     }
     
     given "a Validator", {
-        validator = new XsdValidator(xsdFile)
+        validator = new RngValidator(rngFile)
     }
     
     and "a malformed XML document", {
-        xmlFile = new File("test/resources/test_docs/malformed.xml")
+        xmlFile = new File("test/resources/test_docs/wadl_bad.xml")
     }
     
     when "validation is called", {
@@ -64,10 +64,10 @@ scenario "Using a RngValidator and a RNG file, a valid document should pass vali
 
 }   
 
-scenario "Using a RngValidator and a RNG file, an invalid document should fail validation", {
+scenario "Using a RngValidator and a RNC file, an invalid document should fail validation", {
 
     given "a RNG file", {
-        rngFile = new File("test/resources/schemata/wadl20061109.rng")
+        rngFile = new File("test/resources/schemata/wadl20061109.rnc")
     }
 
     and "a Validator", {

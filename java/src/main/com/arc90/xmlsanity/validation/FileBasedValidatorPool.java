@@ -20,7 +20,7 @@ class FileBasedValidatorPool extends ValidatorPool
 
     private final Logger           logger     = Logger.getLogger(FileBasedValidatorPool.class.getName());
 
-    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws ValidationTypeUnsupportedException, SAXException, FileNotFoundException, FileUnreadableException
+    protected FileBasedValidatorPool(File schemaFile, ValidationType validationType) throws ValidationException, SAXException, FileNotFoundException
     {
         checkFile(schemaFile);
         
@@ -33,7 +33,7 @@ class FileBasedValidatorPool extends ValidatorPool
         getSchema();
     }
 
-    protected Schema getSchema() throws FileNotFoundException, SAXException, FileUnreadableException, ValidationTypeUnsupportedException
+    protected Schema getSchema() throws FileNotFoundException, SAXException, ValidationException
     {
         synchronized (schemaLock)
         {
@@ -46,7 +46,7 @@ class FileBasedValidatorPool extends ValidatorPool
         }
     }
 
-    protected void updateSchema() throws FileNotFoundException, SAXException, ValidationTypeUnsupportedException, FileUnreadableException
+    protected void updateSchema() throws FileNotFoundException, SAXException, ValidationException
     {
         synchronized (schemaLock)
         {
@@ -77,14 +77,17 @@ class FileBasedValidatorPool extends ValidatorPool
         return getTimeCreated(o) > schemaDateTime;
     }
 
-    public static void checkFile(File file) throws FileNotFoundException, FileUnreadableException
+    public static void checkFile(File file) throws FileNotFoundException
     {
         if (file.exists() == false)
         {
             throw new FileNotFoundException("The file " + file.getAbsolutePath() + " does not exist.");
         }
         
-        // TODO: check for readability
+        if (file.canRead() == false)
+        {
+            throw new FileNotFoundException("The file " + file.getAbsolutePath() + " cannot be read.");
+        }    
     }
     
 }

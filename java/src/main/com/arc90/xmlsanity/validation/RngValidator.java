@@ -1,21 +1,11 @@
 package com.arc90.xmlsanity.validation;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierConfigurationException;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import com.arc90.xmlsanity.util.Pool;
-import com.arc90.xmlsanity.util.PoolException;
 
 /***
  * Cacheable, fast, threadsafe, ultra-simple and ultra-usable RELAX NG
@@ -29,143 +19,43 @@ import com.arc90.xmlsanity.util.PoolException;
  * @author Avi Flax <avif@arc90.com>
  * 
  */
-public class RngValidator implements Validator
+public class RngValidator extends JaxpValidator
 {
-    protected final Pool<Verifier> verifierPool;
-
-    public RngValidator(File schemaFile) throws ValidationException, ValidationTypeUnsupportedException
+    private final static Logger logger = Logger.getLogger(RngValidator.class.getName());
+    
+    public RngValidator(File schemaFile) throws ValidationException
     {
         try
         {
-            verifierPool = new FileBasedVerifierPool(schemaFile);
+            validatorPool = new FileBasedValidatorPool(schemaFile, determineValidationTypeForFile(schemaFile));
         }
         catch (FileNotFoundException e)
         {
             throw new ValidationException(e);
         }
-        catch (FileUnreadableException e)
-        {
-            throw new ValidationException(e);
-        }
         catch (SAXException e)
         {
             throw new ValidationException(e);
         }
-        catch (VerifierConfigurationException e)
-        {
-            throw new ValidationException(e);
-        }
-        catch (IOException e)
-        {
-            throw new ValidationException(e);
-        }
     }
 
-    public ValidationResult validate(byte[] content) throws ValidationException
+    private ValidationType determineValidationTypeForFile(File schemaFile) throws ValidationException
     {
-        return validate(new ByteArrayInputStream(content));
-    }
-
-    public ValidationResult validate(File content) throws ValidationException
-    {
-        try
+        String fileExtension = schemaFile.getName().substring(schemaFile.getName().lastIndexOf(".") + 1); 
+        
+        logger.log(Level.FINE, "Extension of passed file {0} is {1}.", new Object[] {schemaFile.getName(), fileExtension});
+        
+        if (fileExtension.equalsIgnoreCase("rnc"))
         {
-            return validate(new InputSource(new FileReader(content)));
+            return ValidationType.RELAXNG_COMPACT;
         }
-        catch (FileNotFoundException e)
+        
+        if (fileExtension.equalsIgnoreCase("rng"))
         {
-            throw new ValidationException(e);
+            return ValidationType.RELAXNG_XML;
         }
-    }
-
-    public ValidationResult validate(InputStream content) throws ValidationException
-    {
-        return validate(new InputSource(content));
-    }
-
-    public ValidationResult validate(Node content) throws ValidationException
-    {
-        Verifier verifier;
-
-        try
-        {
-            verifier = getVerifier();
-        }
-        catch (PoolException e)
-        {
-            throw new ValidationException(e);
-        }
-
-        ValidationResult result = new ValidationResult();
-
-        verifier.setErrorHandler(new ErrorHandler(result));
-
-        try
-        {
-            verifier.verify(content);
-        }
-        catch (SAXException e)
-        {
-            result.addError(e.getMessage());
-        }
-        finally
-        {
-            returnVerifier(verifier);
-        }
-
-        return result;        
-    }
-
-    public ValidationResult validate(String content) throws ValidationException
-    {
-        return validate(new InputSource(new StringReader(content)));
-    }
-    
-    protected ValidationResult validate(InputSource source) throws ValidationException
-    {
-        Verifier verifier;
-
-        try
-        {
-            verifier = getVerifier();
-        }
-        catch (PoolException e)
-        {
-            throw new ValidationException(e);
-        }
-
-        ValidationResult result = new ValidationResult();
-
-        verifier.setErrorHandler(new ErrorHandler(result));
-
-        try
-        {
-            verifier.verify(source);
-        }
-        catch (SAXException e)
-        {
-            result.addError(e.getMessage());
-        }
-        catch (IOException e)
-        {
-            throw new ValidationException(e);
-        }
-        finally
-        {
-            returnVerifier(verifier);
-        }
-
-        return result;
-    }
-    
-    protected Verifier getVerifier() throws PoolException
-    {
-        return verifierPool.checkOut();
-    }
-
-    protected void returnVerifier(Verifier verifier)
-    {
-        verifierPool.checkIn(verifier);
+        
+        throw new ValidationException(String.format("Could not determine whether the RELAX NG schema file %s uses XML syntax or Compact syntax. Make sure the file name ends with .rng or .rnc.", schemaFile.getName()));
     }
 
 }

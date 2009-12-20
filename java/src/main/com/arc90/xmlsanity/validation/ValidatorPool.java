@@ -9,23 +9,40 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
 import com.arc90.xmlsanity.util.Pool;
+import com.thaiopensource.relaxng.jaxp.CompactSyntaxSchemaFactory;
+import com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory;
 
 abstract class ValidatorPool extends Pool<javax.xml.validation.Validator>
 {
     protected final Logger        logger = Logger.getLogger(ValidatorPool.class.getName());
 
-    protected SchemaFactory getSchemaFactory(ValidationType validationType) throws ValidationTypeUnsupportedException
+    protected SchemaFactory getSchemaFactory(ValidationType validationType) throws ValidationException
     {
         SchemaFactory schemaFactory;
         
         try
         {
-            schemaFactory = SchemaFactory.newInstance(validationType.getSchemaLanguage());
+            if (validationType.equals(ValidationType.XSD))
+            {
+                schemaFactory = SchemaFactory.newInstance(validationType.getSchemaLanguage());
+            }
+            else if (validationType.equals(ValidationType.RELAXNG_COMPACT))
+            {
+                schemaFactory = new CompactSyntaxSchemaFactory();
+            }
+            else if (validationType.equals(ValidationType.RELAXNG_XML))
+            {
+                schemaFactory = new XMLSyntaxSchemaFactory();
+            }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
         }
         catch (IllegalArgumentException e)
         {
             String message = "The validation type " + validationType.getName() + " is not supported by this system. No matching SchemaFactory could be located on the ClassPath.";
-            throw new ValidationTypeUnsupportedException(message);
+            throw new ValidationException(message);
         }
         
         try

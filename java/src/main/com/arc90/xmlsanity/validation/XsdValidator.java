@@ -19,17 +19,13 @@ import org.xml.sax.SAXException;
  */
 public class XsdValidator extends JaxpValidator
 {
-    public XsdValidator(File schemaFile) throws ValidationException, ValidationTypeUnsupportedException
+    public XsdValidator(File schemaFile) throws ValidationException, ValidationException
     {
         try
         {
             validatorPool = new FileBasedValidatorPool(schemaFile, ValidationType.XSD);
         }
         catch (FileNotFoundException e)
-        {
-            throw new ValidationException(e);
-        }
-        catch (FileUnreadableException e)
         {
             throw new ValidationException(e);
         }

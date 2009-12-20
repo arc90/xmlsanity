@@ -5,6 +5,8 @@ package com.arc90.xmlsanity.validation;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Node;
 
@@ -14,10 +16,24 @@ import org.w3c.dom.Node;
  */
 public class MultiValidator implements com.arc90.xmlsanity.validation.Validator
 {
+    private final List<Validator> validators = new ArrayList<Validator>();
     
     public MultiValidator(File xsdFile, File rngFile, File schematronFile) throws ValidationException
     {
-        throw new ValidationException("Not implemented yet!");
+        if (xsdFile != null)
+        {
+            this.validators.add(new XsdValidator(xsdFile));
+        }
+        
+        if (rngFile != null)
+        {
+            this.validators.add(new RngValidator(rngFile));
+        }
+
+        if (schematronFile != null)
+        {
+            this.validators.add(new SchematronValidator(schematronFile));
+        }
     }
 
     /*
