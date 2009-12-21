@@ -4,7 +4,7 @@ import com.arc90.xmlsanity.validation.*
 scenario "Using a RngValidator and a RNG file, valid documents should pass validation", {
 
     given "a RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl.rng")
     }
 
       and "a Validator", {
@@ -57,7 +57,7 @@ scenario "Using a RngValidator and a RNG file, valid documents should pass valid
 scenario "Using a RngValidator and a RNC file, valid documents should pass validation", {
 
     given "a RNG file", {
-        rncFile = new File("resources/schemata/wadl20061109.rnc")
+        rncFile = new File("resources/schemata/wadl.rnc")
     }
 
       and "a Validator", {
@@ -110,7 +110,7 @@ scenario "Using a RngValidator and a RNC file, valid documents should pass valid
 scenario "Using a RngValidator and a RNG file, invalid documents should fail validation", {
 
     given "an RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl.rng")
     }
     
     given "a Validator", {
@@ -163,7 +163,7 @@ scenario "Using a RngValidator and a RNG file, invalid documents should fail val
 scenario "Using a RngValidator and a RNC file, invalid documents should fail validation", {
 
     given "an RNG file", {
-        rncFile = new File("resources/schemata/wadl20061109.rnc")
+        rncFile = new File("resources/schemata/wadl.rnc")
     }
     
     given "a Validator", {
@@ -216,7 +216,7 @@ scenario "Using a RngValidator and a RNC file, invalid documents should fail val
 scenario "An RngValidator should be reusable", {
 
     given "a RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl.rng")
     }
 
     and "a Validator", {
@@ -224,7 +224,7 @@ scenario "An RngValidator should be reusable", {
     }
 
     and "an XML document", {
-        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/wadl_good.xml")
     }
 
     when "validation is called multiple times", {

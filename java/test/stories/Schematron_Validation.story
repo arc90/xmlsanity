@@ -75,7 +75,7 @@ scenario "An SchematronValidator should be reusable", {
     }
 
     and "an XML document", {
-        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/person_good.xml")
     }
 
     when "validation is called multiple times", {

@@ -4,11 +4,11 @@ import com.arc90.xmlsanity.validation.*
 scenario "A valid XML document should pass validation", {
 	
 	given "an RNG file", {
-		rngFile = new File("resources/schemata/wadl20061109.rng")
+		rngFile = new File("resources/schemata/wadl.rng")
 	}
 	
 	and "an XSD file", {
-		xsdFile = new File("resources/schemata/wadl20061109.xsd")
+		xsdFile = new File("resources/schemata/wadl.xsd")
 	}
 	
 	and "a MultiValidator", {
@@ -41,11 +41,11 @@ scenario "A valid XML document should pass validation", {
 scenario "A malformed XML document should fail validation", {
 
     given "an RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rng")
+        rngFile = new File("resources/schemata/wadl.rng")
     }
 	
 	and "an XSD file", {
-	    xsdFile = new File("resources/schemata/wadl20061109.xsd")
+	    xsdFile = new File("resources/schemata/wadl.xsd")
 	}
 	
     and "a MultiValidator", {
@@ -79,11 +79,11 @@ scenario "A malformed XML document should fail validation", {
 scenario "A MultiValidator should be reusable", {
 
 	given "an RNG file", {
-		rngFile = new File("resources/schemata/wadl20061109.rng")
+		rngFile = new File("resources/schemata/wadl.rng")
 	}
 	
 	and "an XSD file", {
-		xsdFile = new File("resources/schemata/wadl20061109.xsd")
+		xsdFile = new File("resources/schemata/wadl.xsd")
 	}
 	
 	and "a MultiValidator", {

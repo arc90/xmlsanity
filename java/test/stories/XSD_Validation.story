@@ -3,7 +3,7 @@ import com.arc90.xmlsanity.validation.*
 scenario "Using an XsdValidator and an XSD file, a valid document should pass validation", {
 
     given "an XSD file", {
-        xsdFile = new File("resources/schemata/insight_policyrequest_2.1.xsd")
+        xsdFile = new File("resources/schemata/wadl.xsd")
     }
 
     and "a Validator", {
@@ -11,7 +11,7 @@ scenario "Using an XsdValidator and an XSD file, a valid document should pass va
     }
 
     and "a valid XML document", {
-        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/wadl_good.xml")
     }
 
     when "validation is called", {
@@ -35,7 +35,7 @@ scenario "Using an XsdValidator and an XSD file, a valid document should pass va
 scenario "Using an XsdValidator and an XSD file, an invalid document should fail validation", {
 
     given "an XSD file", {
-        xsdFile = new File("resources/schemata/insight_policyrequest_2.1.xsd")
+        xsdFile = new File("resources/schemata/wadl.xsd")
     }
 
     and "a Validator", {
@@ -43,7 +43,7 @@ scenario "Using an XsdValidator and an XSD file, an invalid document should fail
     }
 
     and "an invalid XML document", {
-        xmlFile = new File("resources/test_docs/policyrequest_bad.xml")
+        xmlFile = new File("resources/test_docs/wadl_bad.xml")
     }
 
     when "validation is called", {
@@ -67,7 +67,7 @@ scenario "Using an XsdValidator and an XSD file, an invalid document should fail
 scenario "An XsdValidator should be reusable", {
 
     given "an XSD file", {
-        xsdFile = new File("resources/schemata/insight_policyrequest_2.1.xsd")
+        xsdFile = new File("resources/schemata/wadl.xsd")
     }
 
     and "a Validator", {
@@ -75,7 +75,7 @@ scenario "An XsdValidator should be reusable", {
     }
 
     and "an XML document", {
-        xmlFile = new File("resources/test_docs/policyrequest_good.xml")
+        xmlFile = new File("resources/test_docs/wadl_good.xml")
     }
 
     when "validation is called multiple times", {
@@ -92,7 +92,7 @@ scenario "An XsdValidator should be reusable", {
 scenario "A malformed XML document should fail validation", {
 
     given "an XSD file", {
-        xsdFile = new File("resources/schemata/insight_policyrequest_2.1.xsd")
+        xsdFile = new File("resources/schemata/wadl.xsd")
     }
     
     given "a Validator", {

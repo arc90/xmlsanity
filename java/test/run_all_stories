@@ -1,1 +1,7 @@
-java -cp '../bin:../lib/jing/*:/Users/avi/Dev/java/easyb-0.9.6/*' org.easyb.BehaviorRunner stories/*.story
+#!/bin/bash
+
+ALL=stories/*.story
+
+FILES=${1:-$ALL}
+
+java -cp '../bin:../lib/jing/*:/Users/avi/Dev/java/easyb-0.9.6/*' org.easyb.BehaviorRunner $FILES
