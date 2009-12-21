@@ -1,6 +1,113 @@
 import com.arc90.xmlsanity.validation.*
 
-scenario "A malformed XML document should fail validation", {
+
+scenario "Using a RngValidator and a RNG file, valid documents should pass validation", {
+
+    given "a RNG file", {
+        rngFile = new File("resources/schemata/wadl20061109.rng")
+    }
+
+      and "a Validator", {
+          validator = new RngValidator(rngFile)
+      }
+      
+      and "a valid XML document as a File", {
+          xmlFile = new File("resources/test_docs/wadl_good.xml")
+      }
+
+      and "a valid XML document as a String", {
+          xmlString = xmlFile.text
+      }
+    
+      and "a valid XML document as an InputStream", {
+          xmlStream = new FileInputStream(xmlFile)
+      }
+
+      and "a valid XML document as a ByteArray", {
+          xmlByteArray = xmlString.getBytes("UTF-8")
+      }
+
+    when "validation is called", {
+        results = []
+        
+        [xmlFile, xmlString, xmlStream, xmlByteArray].each {
+          results.add(validator.validate(it))
+        }
+    }
+
+    then "results should be valid", {
+      results.each {
+        assert it != null
+        it.isValid().shouldBe true
+        it.isInvalid().shouldBe false
+      }
+    }
+
+      and "results should contain no errors", {
+        results.each {
+          assert it.errors != null
+          it.errors.size().shouldBe 0
+          it.errorsAsHtmlList.length().shouldBe 0
+        }
+      }
+
+}
+
+
+scenario "Using a RngValidator and a RNC file, valid documents should pass validation", {
+
+    given "a RNG file", {
+        rncFile = new File("resources/schemata/wadl20061109.rnc")
+    }
+
+      and "a Validator", {
+          validator = new RngValidator(rncFile)
+      }
+
+      and "a valid XML document as a File", {
+          xmlFile = new File("resources/test_docs/wadl_good.xml")
+      }
+
+      and "a valid XML document as a String", {
+          xmlString = xmlFile.text
+      }
+    
+      and "a valid XML document as an InputStream", {
+          xmlStream = new FileInputStream(xmlFile)
+      }
+
+      and "a valid XML document as a ByteArray", {
+          xmlByteArray = xmlString.getBytes("UTF-8")
+      }
+
+    when "validation is called", {
+        results = []
+        
+        [xmlFile, xmlString, xmlStream, xmlByteArray].each {
+          results.add(validator.validate(it))
+        }
+    }
+
+    then "results should be valid", {
+      results.each {
+        assert it != null
+        it.isValid().shouldBe true
+        it.isInvalid().shouldBe false
+      }
+    }
+
+      and "results should contain no errors", {
+        results.each {
+          assert it.errors != null
+          it.errors.size().shouldBe 0
+          it.errorsAsHtmlList.length().shouldBe 0
+        }
+      }
+
+}
+
+
+scenario "Using a RngValidator and a RNG file, invalid documents should fail validation", {
 
     given "an RNG file", {
         rngFile = new File("resources/schemata/wadl20061109.rng")
@@ -10,91 +117,101 @@ scenario "A malformed XML document should fail validation", {
         validator = new RngValidator(rngFile)
     }
     
-    and "a malformed XML document", {
+    and "an invalid XML document as a File", {
         xmlFile = new File("resources/test_docs/wadl_bad.xml")
+    }
+
+    and "an invalid XML document as a String", {
+        xmlString = xmlFile.text
+    }
+  
+    and "an invalid XML document as an InputStream", {
+        xmlStream = new FileInputStream(xmlFile)
+    }
+
+    and "an invalid XML document as a ByteArray", {
+        xmlByteArray = xmlString.getBytes("UTF-8")
     }
     
     when "validation is called", {
-        results = validator.validate(xmlFile)
+        results = []
+        
+        [xmlFile, xmlString, xmlStream, xmlByteArray].each {
+          results.add(validator.validate(it))
+        }
     }
     
     then "results should be invalid", {
-        assert results != null
-        results.isInvalid().shouldBe true
-        results.isValid().shouldBe false
+      results.each {
+        assert it != null
+        it.isInvalid().shouldBe true
+        it.isValid().shouldBe false
+      }
     }
     
     and "results should contain errors", {
-        assert results.errors != null
-        results.errors.size().shouldBeGreaterThan 0
-        results.errorsAsHtmlList.length().shouldBeGreaterThan 0
+      results.each {
+        assert it.errors != null
+        it.errors.size().shouldBeGreaterThan 0
+        it.errorsAsHtmlList.length().shouldBeGreaterThan 0
+      }
     }
     
 }
 
-scenario "Using a RngValidator and a RNG file, a valid document should pass validation", {
 
-    given "a RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rng")
+scenario "Using a RngValidator and a RNC file, invalid documents should fail validation", {
+
+    given "an RNG file", {
+        rncFile = new File("resources/schemata/wadl20061109.rnc")
     }
-
-    and "a Validator", {
-        validator = new RngValidator(rngFile)
+    
+    given "a Validator", {
+        validator = new RngValidator(rncFile)
     }
-
-    and "a valid XML document", {
-        xmlFile = new File("resources/test_docs/wadl_good.xml")
-    }
-
-    when "validation is called", {
-        results = validator.validate(xmlFile)
-    }
-
-    then "results should be valid", {
-        assert results != null
-        results.isValid().shouldBe true
-        results.isInvalid().shouldBe false
-    }
-
-    and "results should contain no errors", {
-        assert results.errors != null
-        results.errors.size().shouldBe 0
-        results.errorsAsHtmlList.length().shouldBe 0
-    }
-
-}   
-
-scenario "Using a RngValidator and a RNC file, an invalid document should fail validation", {
-
-    given "a RNG file", {
-        rngFile = new File("resources/schemata/wadl20061109.rnc")
-    }
-
-    and "a Validator", {
-        validator = new RngValidator(rngFile)
-    }
-
-    and "an invalid XML document", {
+    
+    and "an invalid XML document as a File", {
         xmlFile = new File("resources/test_docs/wadl_bad.xml")
     }
 
+    and "an invalid XML document as a String", {
+        xmlString = xmlFile.text
+    }
+  
+    and "an invalid XML document as an InputStream", {
+        xmlStream = new FileInputStream(xmlFile)
+    }
+
+    and "an invalid XML document as a ByteArray", {
+        xmlByteArray = xmlString.getBytes("UTF-8")
+    }
+    
     when "validation is called", {
-        results = validator.validate(xmlFile)
+        results = []
+        
+        [xmlFile, xmlString, xmlStream, xmlByteArray].each {
+          results.add(validator.validate(it))
+        }
     }
-
+    
     then "results should be invalid", {
-        assert results != null
-        results.isInvalid().shouldBe true
-        results.isValid().shouldBe false
+      results.each {
+        assert it != null
+        it.isInvalid().shouldBe true
+        it.isValid().shouldBe false
+      }
     }
-
+    
     and "results should contain errors", {
-        assert results.errors != null
-        results.errors.size().shouldBeGreaterThan 0
-        results.errorsAsHtmlList.length().shouldBeGreaterThan 0
+      results.each {
+        assert it.errors != null
+        it.errors.size().shouldBeGreaterThan 0
+        it.errorsAsHtmlList.length().shouldBeGreaterThan 0
+      }
     }
-
+    
 }
+
 
 scenario "An RngValidator should be reusable", {
 
