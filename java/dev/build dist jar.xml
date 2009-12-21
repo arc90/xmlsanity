@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project XmlSanity">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/Users/avi/Dev/Eclipse Workspaces/Experiments/XmlSanity/java/dist/xmlsanity_dev.jar" filesetmanifest="mergewithoutmain">
+            <fileset dir="/Users/avi/Dev/Eclipse Workspaces/Experiments/XmlSanity/java/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/avi/Dev/Eclipse Workspaces/Experiments/XmlSanity/java/lib/jing/jing-jaxp.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/Users/avi/Dev/Eclipse Workspaces/Experiments/XmlSanity/java/lib/jing/jing.jar"/>
+        </jar>
+    </target>
+</project>
