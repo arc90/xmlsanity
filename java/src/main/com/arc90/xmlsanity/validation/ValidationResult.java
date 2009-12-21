@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The result of a validation. Makes validity easy to check, and makes errors avaible in a variety of ways.
+ * 
+ * @author Avi Flax
+ */
 public class ValidationResult {
 	private final List<ValidationError> errors = new ArrayList<ValidationError>();
 

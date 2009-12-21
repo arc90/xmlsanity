@@ -22,7 +22,14 @@ import org.xml.sax.SAXException;
 public class RngValidator extends JaxpValidator
 {
     private final static Logger logger = Logger.getLogger(RngValidator.class.getName());
-    
+
+    /**
+     * 
+     * @param schemaFile
+     *            a RELAX NG schema file, using either XML or Compact syntax.
+     *            The file's name must end with either .rng or .rnc.
+     * @throws ValidationException
+     */
     public RngValidator(File schemaFile) throws ValidationException
     {
         try
@@ -41,20 +48,20 @@ public class RngValidator extends JaxpValidator
 
     private ValidationType determineValidationTypeForFile(File schemaFile) throws ValidationException
     {
-        String fileExtension = schemaFile.getName().substring(schemaFile.getName().lastIndexOf(".") + 1); 
-        
-        logger.log(Level.FINE, "Extension of passed file {0} is {1}.", new Object[] {schemaFile.getName(), fileExtension});
-        
+        String fileExtension = schemaFile.getName().substring(schemaFile.getName().lastIndexOf(".") + 1);
+
+        logger.log(Level.FINE, "Extension of passed file {0} is {1}.", new Object[] { schemaFile.getName(), fileExtension });
+
         if (fileExtension.equalsIgnoreCase("rnc"))
         {
             return ValidationType.RELAXNG_COMPACT;
         }
-        
+
         if (fileExtension.equalsIgnoreCase("rng"))
         {
             return ValidationType.RELAXNG_XML;
         }
-        
+
         throw new ValidationException(String.format("Could not determine whether the RELAX NG schema file %s uses XML syntax or Compact syntax. Make sure the file name ends with .rng or .rnc.", schemaFile.getName()));
     }
 

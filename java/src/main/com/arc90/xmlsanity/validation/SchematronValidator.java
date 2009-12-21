@@ -21,6 +21,8 @@ import com.arc90.xmlsanity.transformation.TransformationResult;
 import com.arc90.xmlsanity.transformation.Transformer;
 
 /**
+ * Cacheable, fast, threadsafe, ultra-simple and ultra-usable Schematron validator.
+ * 
  * @author avi
  *
  */

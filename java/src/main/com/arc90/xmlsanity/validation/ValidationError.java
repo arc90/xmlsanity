@@ -2,6 +2,11 @@ package com.arc90.xmlsanity.validation;
 
 import org.xml.sax.SAXParseException;
 
+/**
+ * Provides details about a single error. 
+ * 
+ * @author Avi Flax
+ */
 public class ValidationError
 {
 	private final String message;
