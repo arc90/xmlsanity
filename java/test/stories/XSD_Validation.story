@@ -74,17 +74,26 @@ scenario "An XsdValidator should be reusable", {
         validator = new XsdValidator(xsdFile)
     }
 
-    and "an XML document", {
+    and "a valid XML document", {
         xmlFile = new File("resources/test_docs/wadl_good.xml")
     }
 
     when "validation is called multiple times", {
+        results = []
+        
         5.times {
-            validator.validate(xmlFile)
+            results += validator.validate(xmlFile)
         }
     }
 
     then "no exception should be thrown", {
+    }
+    
+    and "the results should be valid", {
+        results.each {
+            it.isValid().shouldBe true
+            it.isInvalid().shouldBe false
+        }
     }
 
 }

@@ -53,18 +53,24 @@ scenario "Multi-Threaded XSD validation should be fast", {
   		xmlBytes = new File("resources/test_docs/wadl_good.xml").readBytes()
   	}
 
+    and "the validator is warmed up", {
+        5000.times {
+			validator.validate(new ByteArrayInputStream(xmlBytes))
+		}
+    }
+
   	and "a variable containing the time before starting", {
   		start = System.currentTimeMillis()
   	}
 	
 	print "Starting multi-threaded XSD validation... "
-	
+
 	when "validation is called 1000 times each by 2 different threads", {
 		threads = []
-		
+
 		2.times {
 			thread = Thread.start {
-        		1000.times {
+        		5000.times {
         			validator.validate(new ByteArrayInputStream(xmlBytes))
         		}
 			}
@@ -75,7 +81,7 @@ scenario "Multi-Threaded XSD validation should be fast", {
 		threads.each {
 		    it.join()
 		}
-				
+					
 		elapsed = System.currentTimeMillis() - start
 	}
 

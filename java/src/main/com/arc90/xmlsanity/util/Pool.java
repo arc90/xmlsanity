@@ -43,9 +43,13 @@ public abstract class Pool<T>
     {
         out.remove(t);
 
-        if (in.size() < maxToRetain)
+        if (all.size() < maxToRetain)
         {
             in.put(t, System.currentTimeMillis());
+        }
+        else
+        {
+            eradicate(t);
         }
     }
 
@@ -64,9 +68,7 @@ public abstract class Pool<T>
                 if ((now - in.get(t)) > expirationMs)
                 {
                     // object has expired
-                    in.remove(t);
-                    destroy(t);
-                    t = null;
+                    eradicate(t);
                 }
                 else
                 {
@@ -79,9 +81,7 @@ public abstract class Pool<T>
                     else
                     {
                         // object failed validation
-                        in.remove(t);
-                        destroy(t);
-                        t = null;
+                        eradicate(t);
                     }
                 }
             }
@@ -93,13 +93,20 @@ public abstract class Pool<T>
         out.put(t, now);
         return (t);
     }
+    
+    private synchronized void eradicate(T t) {
+        in.remove(t);
+        out.remove(t);
+        all.remove(t);
+        destroy(t);
+    }
 
     /**
      * Default implementation does nothing.
      * 
      * @param o
      */
-    public void destroy(T o)
+     public void destroy(T o)
     {
         // default does nothing
     }
